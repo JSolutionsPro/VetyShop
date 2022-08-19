@@ -1,3 +1,5 @@
 # apolo
 
-Yeimy Lizeth Vega 
+Juan Sebastian Martinez Marin
+Yeimy Lizeth Vega Vargas
+
