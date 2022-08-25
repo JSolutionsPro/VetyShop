@@ -1,10 +1,8 @@
 package com.apolosolutions.Apolo;
 
-import com.apolosolutions.Apolo.Modelos.Empleado;
 import com.apolosolutions.Apolo.Modelos.Empresa;
 import com.apolosolutions.Apolo.Modelos.MovimientoDinero;
 import com.apolosolutions.Apolo.Modelos.enums.RolEmpleado;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
