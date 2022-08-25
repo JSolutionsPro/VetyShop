@@ -9,8 +9,10 @@ public class MovimientosDinero {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
     private long monto;
     private String concepto;
+
     @ManyToOne
     @JoinColumn(name = "empleado_id")
     private Empleado empleado;
