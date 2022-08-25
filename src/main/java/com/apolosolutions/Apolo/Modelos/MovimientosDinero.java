@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="Transacciones")
-public class MovimientoDinero {
+public class MovimientosDinero {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -15,10 +15,10 @@ public class MovimientoDinero {
     @JoinColumn(name = "empleado_id")
     private Empleado empleado;
 
-    public MovimientoDinero() {
+    public MovimientosDinero() {
     }
 
-    public MovimientoDinero(long monto, String concepto, Empleado empleado) {
+    public MovimientosDinero(long monto, String concepto, Empleado empleado) {
         this.monto = monto;
         this.concepto = concepto;
         this.empleado = empleado;

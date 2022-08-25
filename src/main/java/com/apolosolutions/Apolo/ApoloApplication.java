@@ -1,7 +1,7 @@
 package com.apolosolutions.Apolo;
 
 import com.apolosolutions.Apolo.Modelos.Empleado;
-import com.apolosolutions.Apolo.Modelos.MovimientoDinero;
+import com.apolosolutions.Apolo.Modelos.MovimientosDinero;
 import com.apolosolutions.Apolo.Modelos.enums.RolEmpleado;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -11,7 +11,7 @@ public class ApoloApplication {
 	public static void main(String[] args) {
 		Empresa empresa1= new Empresa();
 		Empleado empleado1= new Empleado("Daniel Soto","DanielSC@gamail.com", empresa1, RolEmpleado.ADMINISTRADOR);
-		MovimientoDinero movimiento1= new MovimientoDinero(-23150,"Comida para mascotas",empleado1);
+		MovimientosDinero movimiento1= new MovimientosDinero(-23150,"Comida para mascotas",empleado1);
 
 		System.out.println(empleado1.toString());
 		System.out.println(movimiento1.toString());
