@@ -1,11 +1,11 @@
 # apolo
 
-Juan Sebastian Martinez Marin
+Juan Sebastian Martinez Marin 1023950581
 
-Yeimy Lizeth Vega Vargas
+Yeimy Lizeth Vega Vargas 1052395474
 
-Jose Daniel Soto Castro
+Jose Daniel Soto Castro 1116447608
 
-Probando conexion
+Christian Camilo Ortiz R. 1030559185
 
-Probando desde el intellij
+Cristian Sebastian Neita Alvarez 1007751125
