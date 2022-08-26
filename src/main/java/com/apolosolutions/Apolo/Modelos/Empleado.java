@@ -2,19 +2,11 @@ package com.apolosolutions.Apolo.Modelos;
 
 import com.apolosolutions.Apolo.Modelos.enums.RolEmpleado;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name= "Empleado")
 public class Empleado {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String nombre;
     private String correo;
-    @ManyToOne
-    @JoinColumn(name = "empresa_id")
     private Empresa empresa;
     private RolEmpleado rol;
 
@@ -73,7 +65,7 @@ public class Empleado {
         return "- Datos del empleado - \n" +
                 " Nombre: " + getNombre() + '\n' +
                 " Correo: " + getCorreo() + '\n' +
-                " Empresa: " + getEmpresa() + '\n' +
+                " Empresa: " + getEmpresa().getNombre() + '\n' +
                 " Rol: " + getRol() +
                 "\n---------------------- ";
     }
