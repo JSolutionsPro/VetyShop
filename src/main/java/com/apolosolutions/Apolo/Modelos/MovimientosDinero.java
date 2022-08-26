@@ -9,20 +9,21 @@ public class MovimientosDinero {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private long Cantidad;
-    private String Concepto;
-    @ManyToOne
-    @JoinColumn(name = "Obrero_id")
-    private Empleado cliente;
 
-    public MovimientosDinero(int id) {
-        this.id = id;
+    private long monto;
+    private String concepto;
+
+    @ManyToOne
+    @JoinColumn(name = "empleado_id")
+    private Empleado empleado;
+
+    public MovimientosDinero() {
     }
 
-    public MovimientosDinero(long cantidad, String concepto, Empleado cliente) {
-        Cantidad = cantidad;
-        Concepto = concepto;
-        this.cliente = cliente;
+    public MovimientosDinero(long monto, String concepto, Empleado empleado) {
+        this.monto = monto;
+        this.concepto = concepto;
+        this.empleado = empleado;
     }
 
     public int getId() {
@@ -33,27 +34,36 @@ public class MovimientosDinero {
         this.id = id;
     }
 
-    public long getCantidad() {
-        return Cantidad;
+    public long getMonto() {
+        return monto;
     }
 
-    public void setCantidad(long cantidad) {
-        Cantidad = cantidad;
+    public void setMonto(long monto) {
+        this.monto = monto;
     }
 
     public String getConcepto() {
-        return Concepto;
+        return concepto;
     }
 
     public void setConcepto(String concepto) {
-        Concepto = concepto;
+        this.concepto = concepto;
     }
 
-    public Empleado getCliente() {
-        return cliente;
+    public Empleado getEmpleado() {
+        return empleado;
     }
 
-    public void setCliente(Empleado cliente) {
-        this.cliente = cliente;
+    public void setEmpleado(Empleado empleado) {
+        this.empleado = empleado;
+    }
+
+    @Override
+    public String toString() {
+        return "- Datos del movimiento - \n" +
+                " Monto: " + getMonto() + '\n' +
+                " Concepto: " + getConcepto() + '\n' +
+                " Empleado: " + getEmpleado().getNombre() + '\n' +
+                "---------------------- ";
     }
 }
