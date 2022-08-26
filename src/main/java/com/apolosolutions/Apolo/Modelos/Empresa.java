@@ -63,4 +63,12 @@ public class Empresa {
     public void setNIT(String NIT) {
         this.NIT = NIT;
     }
+    @Override
+    public String toString() {
+        return "- Datos de la empresa - \n" +
+                " Nombre: " + getNombre() + '\n' +
+                " Direccion: " + getDireccion() + '\n' +
+                " Telefono: " + getTelefono() + '\n' +
+                " NIT: " + getNIT() +
+                "\n---------------------- ";}
 }
