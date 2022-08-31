@@ -7,15 +7,17 @@ import javax.persistence.*;
 @Entity
 @Table(name= "Empleado")
 public class Empleado {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @Column(name = "nombre")
     private String nombre;
+    @Column(name = "correo")
     private String correo;
     @ManyToOne
     @JoinColumn(name = "empresa_id")
     private Empresa empresa;
+    @Column(name = "rol")
     private RolEmpleado rol;
 
     public Empleado() {
@@ -73,7 +75,7 @@ public class Empleado {
         return "- Datos del empleado - \n" +
                 " Nombre: " + getNombre() + '\n' +
                 " Correo: " + getCorreo() + '\n' +
-                " Empresa: " + getEmpresa() + '\n' +
+                " Empresa: " + getEmpresa().getNombre() + '\n' +
                 " Rol: " + getRol() +
                 "\n---------------------- ";
     }
