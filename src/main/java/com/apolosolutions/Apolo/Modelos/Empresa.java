@@ -7,11 +7,14 @@ import javax.persistence.*;
 public class Empresa {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
     private int id;
+    @Column(name="nombre")
     private String nombre;
+    @Column(name="direccion")
     private String direccion;
+    @Column(name="telefono")
     private String telefono;
+    @Column(name="nit")
     private String NIT;
 
     public Empresa() {
