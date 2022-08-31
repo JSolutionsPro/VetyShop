@@ -9,7 +9,6 @@ public class MovimientoDinero {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
     private long monto;
     private String concepto;
 
