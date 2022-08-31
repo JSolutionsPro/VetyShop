@@ -2,12 +2,22 @@ package com.apolosolutions.Apolo.Modelos;
 
 import com.apolosolutions.Apolo.Modelos.enums.RolEmpleado;
 
-public class Empleado {
+import javax.persistence.*;
 
+@Entity
+@Table(name= "Empleado")
+public class Empleado {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @Column(name = "nombre")
     private String nombre;
+    @Column(name = "correo")
     private String correo;
+    @ManyToOne
+    @JoinColumn(name = "empresa_id")
     private Empresa empresa;
+    @Column(name = "rol")
     private RolEmpleado rol;
 
     public Empleado() {
