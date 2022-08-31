@@ -5,8 +5,8 @@ import com.apolosolutions.Apolo.Modelos.enums.RolEmpleado;
 import javax.persistence.*;
 
 @Entity
-@Table(name= "Empleado")
-public class Empleado {
+@Table(name= "Usuario")
+public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -20,10 +20,10 @@ public class Empleado {
     @Column(name = "rol")
     private RolEmpleado rol;
 
-    public Empleado() {
+    public Usuario() {
     }
 
-    public Empleado(String nombre, String correo, Empresa empresa, RolEmpleado rol) {
+    public Usuario(String nombre, String correo, Empresa empresa, RolEmpleado rol) {
         this.nombre = nombre;
         this.correo = correo;
         this.empresa = empresa;
@@ -72,7 +72,7 @@ public class Empleado {
 
     @Override
     public String toString() {
-        return "- Datos del empleado - \n" +
+        return "- Datos del Usuario - \n" +
                 " Nombre: " + getNombre() + '\n' +
                 " Correo: " + getCorreo() + '\n' +
                 " Empresa: " + getEmpresa().getNombre() + '\n' +
