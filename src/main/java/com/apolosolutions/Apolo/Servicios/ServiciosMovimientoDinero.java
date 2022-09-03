@@ -1,30 +1,32 @@
-package Servicios;
+package com.apolosolutions.Apolo.Servicios;
 
-import com.apolosolutions.Apolo.Modelos.Usuario;
-import com.apolosolutions.Apolo.Modelos.Empresa;
 import com.apolosolutions.Apolo.Modelos.MovimientoDinero;
 import com.apolosolutions.Apolo.Repositorios.MovimientoDineroRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Service
 public class ServiciosMovimientoDinero {
         @Autowired
         MovimientoDineroRepositorio movimientoDineroRepositorio;
 
-        public List<MovimientoDinero> getAllMovimientos(){
-                return new ArrayList<>(movimientoDineroRepositorio.findAll());
+        public List<MovimientoDinero> ListarMovimientos(){
+                List<MovimientoDinero> movimientolist= new ArrayList<>();
+                movimientoDineroRepositorio.findAll().forEach(movimiento -> movimientolist.add(movimiento));
+                return movimientolist;
         }
-        public MovimientoDinero getMovimientoById(Integer id){
-                return movimientoDineroRepositorio.findById(id).get();}
+        public MovimientoDinero consultarMovimiento(Integer id){
+                return movimientoDineroRepositorio.findById(id).get();
+        }
 
-        public MovimientoDinero SaveOrUpdateMovimiento(MovimientoDinero movimientoDinero){
+        public MovimientoDinero guardarActualizarMovimiento(MovimientoDinero movimientoDinero){
                 MovimientoDinero mov = movimientoDineroRepositorio.save(movimientoDinero);
                 return mov;
         }
 
-        public boolean deleteMovimiento(Integer id){
+        public boolean eliminarMovimiento(Integer id){
                 movimientoDineroRepositorio.deleteById(id);
                 if(this.movimientoDineroRepositorio.findById(id).isPresent()){
                         return false;
@@ -32,10 +34,10 @@ public class ServiciosMovimientoDinero {
                 return true;
         }
 
-        public ArrayList<MovimientoDinero> obtenerPorUsuario(Integer id) {
+        public ArrayList<MovimientoDinero> consultarPorUsuario(Integer id) {
                 return movimientoDineroRepositorio.findByUsuario(id);
         }
-        public ArrayList<MovimientoDinero>obtenerPorEmpresa(Integer id){
+        public ArrayList<MovimientoDinero> consultarPorEmpresa(Integer id){
                 return movimientoDineroRepositorio.findByEmpresa(id);
         }
 }
