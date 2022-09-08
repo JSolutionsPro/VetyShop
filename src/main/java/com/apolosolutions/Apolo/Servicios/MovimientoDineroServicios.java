@@ -40,4 +40,14 @@ public class MovimientoDineroServicios {
         public ArrayList<MovimientoDinero> consultarPorEmpresa(Integer id){
                 return movimientoDineroRepositorio.findByEmpresa(id);
         }
+
+        public List<MovimientoDinero> guardarActualizarMovimientos(List<MovimientoDinero> movimientoDinero){
+                List<MovimientoDinero> mov = movimientoDineroRepositorio.saveAll(movimientoDinero);
+                return mov;
+        }
+
+        public void eliminarMovimientos(List<MovimientoDinero> movimientoList){
+                movimientoDineroRepositorio.deleteAll(movimientoList);
+        }
+
 }
