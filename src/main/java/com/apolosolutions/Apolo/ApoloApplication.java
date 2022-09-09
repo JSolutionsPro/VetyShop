@@ -53,7 +53,9 @@ public class ApoloApplication {
 		movimiento1.setEmpleado(usuario2);
 		System.out.println(movimiento1.toString());
 
+
 		 empresa1.toString()+"<br>\n"+ usuario1.toString()+"<br>\n"+movimiento1.toString();}*/
+
 
 }
 

@@ -1,8 +1,11 @@
 package com.apolosolutions.Apolo.Modelos;
 
 import com.apolosolutions.Apolo.Modelos.enums.RolEmpleado;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name= "Usuario")
@@ -16,18 +19,25 @@ public class Usuario {
     private String correo;
     @ManyToOne
     @JoinColumn(name = "empresa_id")
+    @JsonBackReference(value="empresa-movimiento")
     private Empresa empresa;
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "rol")
     private RolEmpleado rol;
+
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference("usuario-movimiento")
+    private List<MovimientoDinero> movimientoDinero;
 
     public Usuario() {
     }
 
-    public Usuario(String nombre, String correo, Empresa empresa, RolEmpleado rol) {
+    public Usuario(String nombre, String correo, Empresa empresa, RolEmpleado rol, List<MovimientoDinero> movimientoDinero) {
         this.nombre = nombre;
         this.correo = correo;
         this.empresa = empresa;
         this.rol = rol;
+        this.movimientoDinero = movimientoDinero;
     }
 
     public int getId() {
@@ -68,6 +78,14 @@ public class Usuario {
 
     public void setRol(RolEmpleado rol) {
         this.rol = rol;
+    }
+
+    public List<MovimientoDinero> getMovimientoDinero() {
+        return movimientoDinero;
+    }
+
+    public void setMovimientoDinero(List<MovimientoDinero> movimientoDinero) {
+        this.movimientoDinero = movimientoDinero;
     }
 
     @Override
