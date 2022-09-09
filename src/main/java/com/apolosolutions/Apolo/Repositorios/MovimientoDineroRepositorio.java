@@ -13,7 +13,10 @@ public interface MovimientoDineroRepositorio extends JpaRepository<MovimientoDin
     @Query(value ="SELECT * FROM transacciones WHERE usuario_id= ?1", nativeQuery = true)
     public abstract ArrayList<MovimientoDinero> findByUsuario(Integer id);
 
-    //Metodo para filtrar movimientos por empresa
+    //Metodo para filtrar movimientos de un usuario por empresa
     @Query(value="SELECT * FROM transacciones WHERE usuario_id IN (SELECT id FROM usuario WHERE empresa_id= ?1)", nativeQuery = true)
+    public abstract ArrayList<MovimientoDinero> findMovimientosOfUsuariosByEmpresa(Integer id);
+
+    @Query(value ="SELECT * FROM transacciones WHERE empresa_id= ?1", nativeQuery = true)
     public abstract ArrayList<MovimientoDinero> findByEmpresa(Integer id);
 }

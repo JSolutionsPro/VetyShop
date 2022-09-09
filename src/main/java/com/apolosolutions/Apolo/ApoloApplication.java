@@ -20,7 +20,7 @@ public class ApoloApplication {
 	/*@GetMapping("/test")
 	public String test(){
 		// Instancia de las clases
- 		Empresa empresa1= new Empresa("Apolo solutions", "Cll encuentrela", "311-2465513", "231-54697321");
+ 		/*Empresa empresa1= new Empresa("Apolo solutions", "Cll encuentrela", "311-2465513", "231-54697321");
 		Usuario usuario1 = new Usuario("Daniel Soto","DanielSC@gmail.com", empresa1, RolEmpleado.ADMINISTRADOR);
 		MovimientoDinero movimiento1= new MovimientoDinero(-23150,"Comida para mascotas", usuario1);
 
@@ -53,7 +53,9 @@ public class ApoloApplication {
 		movimiento1.setEmpleado(usuario2);
 		System.out.println(movimiento1.toString());
 
-		return empresa1.toString()+"<br>\n"+ usuario1.toString()+"<br>\n"+movimiento1.toString();
-	}*/
+
+		 empresa1.toString()+"<br>\n"+ usuario1.toString()+"<br>\n"+movimiento1.toString();}*/
+
 
 }
+
