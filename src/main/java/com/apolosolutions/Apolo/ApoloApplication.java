@@ -17,7 +17,7 @@ public class ApoloApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ApoloApplication.class, args);
 	}
-	@GetMapping("/test")
+	/*@GetMapping("/test")
 	public String test(){
 		// Instancia de las clases
  		Empresa empresa1= new Empresa("Apolo solutions", "Cll encuentrela", "311-2465513", "231-54697321");
@@ -54,6 +54,6 @@ public class ApoloApplication {
 		System.out.println(movimiento1.toString());
 
 		return empresa1.toString()+"<br>\n"+ usuario1.toString()+"<br>\n"+movimiento1.toString();
-	}
+	}*/
 
 }
