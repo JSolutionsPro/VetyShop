@@ -22,11 +22,13 @@ public class UsuarioServicios {
     }
 
     public Usuario consultarUsuario(Integer id){
+
         return usuarioRepositorio.findById(id).get();
     }
 
     //Metodo para guardar o actualizar un usuario
     public Usuario guardarActualizarUsuario(Usuario usuario){
+
         return usuarioRepositorio.save(usuario);
     }
 
@@ -40,7 +42,7 @@ public class UsuarioServicios {
     }
 
     //Metodo para buscar los usuarios por Empresa
-    public ArrayList<Usuario> consultarUsuariosPorEmpresa(Integer id){
+    public ArrayList<Usuario> obtenerPorEmpresa(Integer id){
         return usuarioRepositorio.findByEmpresa(id);
     }
 
