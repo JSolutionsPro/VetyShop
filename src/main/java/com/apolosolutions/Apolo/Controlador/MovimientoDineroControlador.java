@@ -1,7 +1,6 @@
 package com.apolosolutions.Apolo.Controlador;
 
 import com.apolosolutions.Apolo.Modelos.MovimientoDinero;
-import com.apolosolutions.Apolo.Repositorios.MovimientoDineroRepositorio;
 import com.apolosolutions.Apolo.Servicios.MovimientoDineroServicios;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
