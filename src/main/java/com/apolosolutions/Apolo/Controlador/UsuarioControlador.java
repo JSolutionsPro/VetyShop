@@ -35,7 +35,7 @@ public class UsuarioControlador {
         usuario1.setNombre(usuario.getNombre());
         usuario1.setCorreo(usuario.getCorreo());
         usuario1.setEmpresa(usuario.getEmpresa());
-        usuario1.setMovimientoDineros(usuario.getMovimientoDineros());
+        usuario1.setMovimientos(usuario.getMovimientos());
         usuario1.setRol(usuario.getRol());
         return usuarioServicios.guardarActualizarUsuario(usuario1);
     }

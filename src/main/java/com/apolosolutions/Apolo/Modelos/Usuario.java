@@ -31,18 +31,18 @@ public class Usuario {
     //Relacion usuario-movimiento
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     @JsonManagedReference(value="usuario-movimiento")
-    private List<MovimientoDinero> movimientoDineros;
+    private List<MovimientoDinero> movimientos;
 
 
     public Usuario() {
     }
 
-    public Usuario(String nombre, String correo, RolEmpleado rol, Empresa empresa, List<MovimientoDinero> movimientoDineros) {
+    public Usuario(String nombre, String correo, RolEmpleado rol, Empresa empresa, List<MovimientoDinero> movimientos) {
         this.nombre = nombre;
         this.correo = correo;
         this.rol = rol;
         this.empresa = empresa;
-        this.movimientoDineros = movimientoDineros;
+        this.movimientos = movimientos;
     }
 
     public int getId() {
@@ -93,12 +93,12 @@ public class Usuario {
         this.empresa_id = empresa_id;
     }
 
-    public List<MovimientoDinero> getMovimientoDineros() {
-        return movimientoDineros;
+    public List<MovimientoDinero> getMovimientos() {
+        return movimientos;
     }
 
-    public void setMovimientoDineros(List<MovimientoDinero> movimientoDineros) {
-        this.movimientoDineros = movimientoDineros;
+    public void setMovimientos(List<MovimientoDinero> movimientos) {
+        this.movimientos = movimientos;
     }
     @Override
     public String toString() {
