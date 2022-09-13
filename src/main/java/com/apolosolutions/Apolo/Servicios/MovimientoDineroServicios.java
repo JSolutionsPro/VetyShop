@@ -1,6 +1,7 @@
 package com.apolosolutions.Apolo.Servicios;
 
 import com.apolosolutions.Apolo.Modelos.MovimientoDinero;
+import com.apolosolutions.Apolo.Repositorios.EmpresaRepositorio;
 import com.apolosolutions.Apolo.Repositorios.MovimientoDineroRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,19 +12,18 @@ import java.util.List;
 public class MovimientoDineroServicios {
         @Autowired
         MovimientoDineroRepositorio movimientoDineroRepositorio;
+        @Autowired
+        EmpresaRepositorio empresaRepositorio;
 
         public List<MovimientoDinero> ListarMovimientos(){
-                List<MovimientoDinero> movimientolist= new ArrayList<>();
-                movimientoDineroRepositorio.findAll().forEach(movimiento -> movimientolist.add(movimiento));
-                return movimientolist;
+                return movimientoDineroRepositorio.findAll();
         }
         public MovimientoDinero consultarMovimiento(Integer id){
                 return movimientoDineroRepositorio.findById(id).get();
         }
 
         public MovimientoDinero guardarActualizarMovimiento(MovimientoDinero movimientoDinero){
-                MovimientoDinero mov = movimientoDineroRepositorio.save(movimientoDinero);
-                return mov;
+                return movimientoDineroRepositorio.save(movimientoDinero);
         }
 
         public boolean eliminarMovimiento(Integer id){
@@ -46,8 +46,18 @@ public class MovimientoDineroServicios {
                 return mov;
         }
 
-        public void eliminarMovimientos(List<MovimientoDinero> movimientoList){
+        public boolean eliminarMovimientos(Integer id, List<MovimientoDinero> movimientoList){
                 movimientoDineroRepositorio.deleteAll(movimientoList);
+                if(empresaRepositorio.findById(id).isPresent()) {
+                        if (this.movimientoDineroRepositorio.findByEmpresa(id).isEmpty()) {
+                                return true;
+                        }
+                }
+                return false;
+        }
+
+        public List<MovimientoDinero> consultarMovimientosDeUsuariosPorEmpresa(Integer id){
+                return movimientoDineroRepositorio.findMovimientosOfUsuariosByEmpresa(id);
         }
 
 }
