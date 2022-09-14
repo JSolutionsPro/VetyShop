@@ -3,19 +3,23 @@ package com.apolosolutions.Apolo.Controlador;
 import com.apolosolutions.Apolo.Modelos.MovimientoDinero;
 import com.apolosolutions.Apolo.Servicios.MovimientoDineroServicios;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class MovimientoDineroControlador {
 
     @Autowired
     MovimientoDineroServicios movimientoDineroServicios;
 
     @GetMapping(path = "/movimientos")
-    public List<MovimientoDinero> listarMovimientos(){
-        return movimientoDineroServicios.ListarMovimientos();
+    public String listarMovimientos(Model model){
+        List<MovimientoDinero> movlist = movimientoDineroServicios.ListarMovimientos();
+        model.addAttribute("movlist", movlist);
+        return "verMovimientos";
     }
 
     @PostMapping(path = "/movimientos") //Ojo el Body debe traer el ID de usuario y empresa
