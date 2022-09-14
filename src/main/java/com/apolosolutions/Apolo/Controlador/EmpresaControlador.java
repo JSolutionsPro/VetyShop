@@ -23,12 +23,12 @@ public class EmpresaControlador {
         return empresaServicios.guardarActualizarEmpresa(empresa);
     }
 
-    @GetMapping("/empresas/{id}")
+    @GetMapping("/empresas/{id}") //Consultar una empresa por id
     public Empresa empresaPorId(@PathVariable("id") Integer id){
         return empresaServicios.consultarEmpresa(id);
     }
 
-    @PatchMapping("/empresas/{id}")
+    @PatchMapping("/empresas/{id}") //Actualizar una Empresa
     public Empresa actualizarEmpresa(@PathVariable("id") Integer id, @RequestBody Empresa empresa){
         Empresa empresa1 = empresaServicios.consultarEmpresa(id);
         empresa1.setNombre(empresa.getNombre());
@@ -38,7 +38,7 @@ public class EmpresaControlador {
         return empresaServicios.guardarActualizarEmpresa(empresa1);
     }
 
-    @DeleteMapping("/empresas/{id}")
+    @DeleteMapping("/empresas/{id}") //Eliminar empresa
     public String eliminarEmpresa(@PathVariable("id") Integer id){
         boolean respuesta = empresaServicios.eliminarEmpresa(id);
         if (respuesta){

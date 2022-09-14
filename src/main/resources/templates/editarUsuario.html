@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Apolo Solutions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="icon" href="icono.svg">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+</head>
+
+<body class="fw-light">
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-2 text-white min-vh-100">
+                    <a href="#"
+                        class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none mt-4 text-center">
+                        <span class="fs-4 d-none d-sm-inline">
+                            <i class="bi bi-grid"></i>
+                            Apolo Solutions
+                        </span>
+                    </a>
+                    <hr class="w-100" style="margin-top: 0px;">
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start text-white w-100"
+                        id="menu">
+                        <li class="nav-item w-100" data-aos="fade-up">
+                            <a href="apolo.html" class="nav-link align-middle text-white  px-3">
+                                <i class="fs-4 bi-house mr-3"></i> <span class="ms-1 d-none d-sm-inline">Inicio</span>
+                            </a>
+                        </li>
+                        <li class="nav-item w-100" data-aos="fade-up">
+                            <a href="verUsuarios.html" class="nav-link align-middle text-white px-3 active">
+                                <i class="fs-4 bi bi-people mr-3"></i> <span
+                                    class="ms-1 d-none d-sm-inline">Usuarios</span></a>
+                        </li>
+                        <li class="nav-item w-100" data-aos="fade-up">
+                            <a href="verEmpresas.html" class="nav-link align-middle text-white px-3 ">
+                                <i class="fs-4 bi bi-building mr-3"></i><span class="ms-1 d-none d-sm-inline">
+                                    Empresas</span>
+                            </a>
+                        </li>
+                        <li class="nav-item w-100" data-aos="fade-up">
+                            <a href="verMovimientos.html" class="nav-link align-middle text-white px-3">
+                                <i class="fs-4 bi bi-currency-exchange mr-3"></i><span class="ms-1 d-none d-sm-inline">
+                                    Transacciones</span>
+                            </a>
+                        </li>
+                        <li class="nav-item w-100" data-aos="fade-up">
+                            <a href="#" class="nav-link align-middle text-white px-3">
+                                <i class="fs-4 bi bi-speedometer2 mr-3"></i><span class="ms-1 d-none d-sm-inline "> Mis
+                                    Datos</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <hr class="w-100">
+                    <div class="dropdown pb-4 fixed-bottom mx-3">
+
+                        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                            id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30"
+                                class="rounded-circle">
+                            <span class="d-none d-sm-inline mx-1">User</span>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow ">
+                            <li><a class="dropdown-item" href="#">Mis Datos</a></li>
+                            <li><a class="dropdown-item" href="#">Actualizar</a></li>
+                            <li><a class="dropdown-item" href="#">Perfil</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Salir</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col py-3">
+                <div>
+                    <h3 class="ml-5 pl-5 fw-light text-end mb-4">
+                        Bienvenido Usuario
+                        <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30"
+                            class="rounded-circle">
+                    </h3>
+                    <hr>
+                </div>
+
+                <div class="py-4 mt-5 container" data-aos="fade-up">
+                    <form action="" method="POST" class="py-4 px-5 mx-5 shadow-lg ">
+                        <h1 class="fw-light"> <a href="verUsuarios.html" class="btn btn-outline-dark"><i
+                                    class="bi bi-arrow-left"></i></a> Editar datos del usuario</h1>
+                        <p class="pt-3 text-muted fst-italic">IMPORTANTE: Recuerde que el campo ID no puede ser editado.
+                        </p>
+                        <div class="row ">
+                            <div class="col">
+                                <label for="exampleInputEmail1" class="pt-3 fw-light form-label"><i
+                                        class="bi bi-asterisk"></i>ID*</label>
+                                <input type="number" name="id" required class="fw-light form-control w-100" id="id"
+                                    aria-describedby="emailHelp" readonly>
+                            </div>
+                            <div class="col">
+                                <label for="exampleInputEmail1" class="pt-3 fw-light form-label"><i
+                                        class="bi bi-person-plus"></i> Nombre*</label>
+                                <input type="text" name="nombre" required class="fw-light form-control w-100"
+                                    id="nombre" aria-describedby="emailHelp">
+                            </div>
+                            <div class="col">
+
+                                <label for="exampleInputEmail1" class="pt-3 fw-light form-label"><i
+                                        class="bi bi-at"></i> Correo*</label>
+                                <input type="email" name="email" required class="fw-light form-control w-100" id="email"
+                                    aria-describedby="emailHelp">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="exampleInputEmail1" class="pt-3 fw-light form-label"><i
+                                        class="bi bi-people"></i> Rol*</label>
+                                <select class="fw-light form-select w-100" aria-label="Default select example" id="rol"
+                                    name="rol">
+                                    <option value="1" class="fw-light">ADMINISTRADOR</option>
+                                    <option value="2" class="fw-light">OPERARIO</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="exampleInputEmail1" class="pt-3 fw-light form-label">
+                                    <i class="bi bi-building mr-3"></i> Empresa*</label>
+                                <select class="fw-light form-select w-100" aria-label="Default select example"
+                                    id="empresa" name="empresa">
+                                    <option value="1" class="fw-light">Apolo</option>
+                                    <option value="2" class="fw-light">Otro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="pt-4 row text-center">
+                            <div class="col">
+                                <input type="submit" value="Actualizar" class="btn btn-outline-dark w-75 text-center"
+                                    name="actualizar">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            easing: 'ease-out-back',
+            duration: 2500
+        });
+    </script>
+</body>
+
+</html>
