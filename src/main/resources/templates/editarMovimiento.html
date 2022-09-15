@@ -90,56 +90,71 @@
                 </div>
 
                 <div class="py-4 mt-5 container" data-aos="fade-up">
-                    <form action="" method="POST" class="py-4 px-5 mx-5 shadow-lg ">
-                        <h1 class="fw-light"> <a href="verMovimientos.html" class="btn btn-outline-dark"><i
-                                    class="bi bi-arrow-left"></i></a> Editar movimiento/transacción </h1>
-                        <p class="pt-3 text-muted fst-italic">IMPORTANTE: Recuerde que el campo ID no puede ser editado.
-                        </p>
-                        <div class="row ">
-                            <div class="col">
-                                <label for="exampleInputEmail1" class="pt-3 fw-light form-label"><i
-                                        class="bi bi-asterisk"></i>ID*</label>
-                                <input type="number" name="id" required class="fw-light form-control w-100" id="id"
-                                    aria-describedby="emailHelp" readonly>
-                            </div>
-                            <div class="col">
-                                <label for="exampleInputEmail1" class="pt-3 fw-light form-label"><i
-                                        class="bi bi-grid"></i> Concepto*</label>
-                                <input type="text" name="concepto" required class="fw-light form-control w-100"
-                                    id="concepto" aria-describedby="emailHelp">
-                            </div>
-                            <div class="col">
+                    <form th:action="@{/GuardarMovimiento}" th:object="${mov}" th:method="POST" class="py-4 px-5 mx-5 shadow-lg">
+                        <h1 class="fw-light"> <a th:href="@{/VerMovimientos}"class="btn btn-outline-dark"><i
+                                class="bi bi-arrow-left"></i></a> Editar movimiento/transacción </h1>
+                        <p class="pt-3 text-muted fst-italic">IMPORTANTE: Recuerde que el campo ID y Fecha del movimiento no pueden ser editados.</p>
 
-                                <label for="exampleInputEmail1" class="pt-3 fw-light form-label"><i
-                                        class="bi bi-currency-dollar"></i>Monto*</label>
-                                <input type="number" name="monto" required class="fw-light form-control w-100"
-                                    id="monto" aria-describedby="emailHelp">
+                        <!--Campo para ID-->
+                        <div class="row">
+                        <div class="col">
+                            <label for="id" class="pt-3 fw-light form-label">
+                                <i class="bi bi-tag"></i> ID *</label>
+                            <input type="number" th:field="*{id}" name="id" required class="fw-light form-control w-100" id="id" readonly>
+                        </div>
+                        <!--Campo para Fecha-->
+                            <div class="col">
+                                <label class="pt-3 fw-light form-label" for="fecha">
+                                    <i class="bi bi-calendar4-week"></i> Fecha del movimiento</label>
+                                <input type="date" th:field="*{fechaMovimiento}" id="fecha" required class="fw-light form-control w-100 text-center" readonly>
                             </div>
                         </div>
+
+                        <!--Campo para concepto-->
                         <div class="row">
                             <div class="col">
-                                <label for="exampleInputEmail1" class="pt-3 fw-light form-label"><i
-                                        class="bi bi-people"></i> Usuario*</label>
-                                <select class="fw-light form-select w-100" aria-label="Default select example" id="rol"
-                                    name="rol">
-                                    <option value="1" class="fw-light">Pepito Perez</option>
-                                    <option value="2" class="fw-light">Otro nombre</option>
+                                <label for="concepto" class="pt-3 fw-light form-label">
+                                    <i class="bi bi-receipt-cutoff"></i> Concepto *</label>
+                                <input type="text" th:field="*{concepto}" name="concepto" required class="fw-light form-control w-100"
+                                       id="concepto" placeholder="Ejemplo: Papelería">
+                            </div>
+
+                            <!--Campo para Monto-->
+                            <div class="col">
+                                <label for="monto" class="pt-3 fw-light form-label">
+                                    <i class="bi bi-currency-dollar"></i> Monto *</label>
+                                <input type="number" th:field="*{monto}" name="monto" required class="fw-light form-control w-100" id="monto"
+                                       placeholder="Ejemplo: 45.000">
+                            </div>
+                        </div>
+
+                        <!--Campo para empleado(Usuario responsable)-->
+                        <div class="row">
+                            <div class="col">
+                                <label for="usuario" class="pt-3 fw-light form-label">
+                                    <i class="bi bi-people"></i> Usuario *</label>
+                                <select th:field="*{usuario_id}" class="fw-light form-select w-100" aria-label="Default select example" id="usuario"
+                                        name="usuario">
+                                    <option th:each="usuario : ${usualist}" th:text="${usuario.nombre}" th:value="${usuario.id}" class="fw-light"></option>
                                 </select>
                             </div>
+
+                            <!--Campo para empresa-->
                             <div class="col">
-                                <label for="exampleInputEmail1" class="pt-3 fw-light form-label">
-                                    <i class="bi bi-building mr-3"></i> Empresa*</label>
-                                <select class="fw-light form-select w-100" aria-label="Default select example"
-                                    id="empresa" name="empresa">
-                                    <option value="1" class="fw-light">Apolo</option>
-                                    <option value="2" class="fw-light">Otro</option>
+                                <label for="empresa" class="pt-3 fw-light form-label">
+                                    <i class="bi bi-building mr-3"></i> Empresa *</label>
+                                <select th:field="*{empresa_id}" class="fw-light form-select w-100" aria-label="Default select example" id="empresa"
+                                        name="empresa">
+                                    <option th:each="empresa : ${emprelist}" th:text="${empresa.nombre}" th:value="${empresa.id}" class="fw-light"></option>
                                 </select>
                             </div>
                         </div>
+
+
                         <div class="pt-4 row text-center">
                             <div class="col">
-                                <input type="submit" value="Guardar" class="btn btn-outline-dark w-75 text-center"
-                                    name="guardar">
+                                <input type="submit" value="Actualizar" class="btn btn-outline-dark w-75 text-center"
+                                       name="actualizar">
                             </div>
                         </div>
                     </form>
@@ -148,8 +163,8 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
-        crossorigin="anonymous"></script>
+            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+            crossorigin="anonymous"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
         AOS.init({
@@ -157,6 +172,7 @@
             duration: 2500
         });
     </script>
+
 </body>
 
 </html>

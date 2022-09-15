@@ -90,45 +90,61 @@
                 </div>
 
                 <div class="py-4 mt-5 container" data-aos="fade-up">
-                    <form action="" method="POST" class="py-4 px-5 mx-5 shadow-lg ">
-                        <h1 class="fw-light"> <a href="verMovimientos.html" class="btn btn-outline-dark"><i
+                    <form th:action="@{/GuardarMovimiento}" th:object="${mov}" method="POST" class="py-4 px-5 mx-5 shadow-lg">
+                        <h1 class="fw-light"> <a th:href="@{/VerMovimientos}"class="btn btn-outline-dark"><i
                                     class="bi bi-arrow-left"></i></a> Crear un movimiento nuevo </h1>
                         <p class="pt-3 text-muted fst-italic">Por favor ingrese los siguientes datos, recuerde que todos
                             son obligatorios.</p>
-                        <div class="row ">
-                            <div class="col">
-                                <label for="exampleInputEmail1" class="pt-3 fw-light form-label"><i
-                                        class="bi bi-grid"></i> Concepto*</label>
-                                <input type="text" name="concepto" required class="fw-light form-control w-100"
-                                    id="concepto" aria-describedby="emailHelp" placeholder="Ejemplo: Papeleria">
-                            </div>
-                            <div class="col">
 
-                                <label for="exampleInputEmail1" class="pt-3 fw-light form-label"><i class="bi bi-currency-dollar"></i>Monto*</label>
-                                <input type="number" name="monto" required class="fw-light form-control w-100" id="monto"
-                                    aria-describedby="emailHelp" placeholder="Ejemplo: 45.000">
-                            </div>
-                        </div>
+                        <!--Campo para concepto-->
                         <div class="row">
                             <div class="col">
-                                <label for="exampleInputEmail1" class="pt-3 fw-light form-label"><i
-                                        class="bi bi-people"></i> Usuario*</label>
-                                <select class="fw-light form-select w-100" aria-label="Default select example" id="rol"
-                                    name="rol">
-                                    <option value="1" class="fw-light">Pepito Perez</option>
-                                    <option value="2" class="fw-light">Otro nombre</option>
+                                <label for="concepto" class="pt-3 fw-light form-label">
+                                    <i class="bi bi-receipt-cutoff"></i> Concepto *</label>
+                                <input type="text" th:field="*{concepto}" name="concepto" required class="fw-light form-control w-100"
+                                    id="concepto" placeholder="Ejemplo: Papelería">
+                            </div>
+
+                            <!--Campo para Monto-->
+                            <div class="col">
+                                <label for="monto" class="pt-3 fw-light form-label">
+                                    <i class="bi bi-currency-dollar"></i> Monto *</label>
+                                <input type="number" th:field="*{monto}" name="monto" required class="fw-light form-control w-100" id="monto"
+                                    placeholder="Ejemplo: 45.000">
+                            </div>
+                        </div>
+
+                        <!--Campo para empleado(Usuario responsable)-->
+                        <div class="row">
+                            <div class="col">
+                                <label for="usuario" class="pt-3 fw-light form-label">
+                                    <i class="bi bi-people"></i> Usuario *</label>
+                                <select th:field="*{usuario_id}" class="fw-light form-select w-100" aria-label="Default select example" id="usuario"
+                                    name="usuario">
+                                    <option th:each="usuario : ${usualist}" th:text="${usuario.nombre}" th:value="${usuario.id}" class="fw-light"></option>
                                 </select>
                             </div>
+                            <!--Campo para empresa-->
                             <div class="col">
-                                <label for="exampleInputEmail1" class="pt-3 fw-light form-label">
-                                    <i class="bi bi-building mr-3"></i> Empresa*</label>
-                                <select class="fw-light form-select w-100" aria-label="Default select example" id="empresa"
+                                <label for="empresa" class="pt-3 fw-light form-label">
+                                    <i class="bi bi-building mr-3"></i> Empresa *</label>
+                                <select th:field="*{empresa_id}" class="fw-light form-select w-100" aria-label="Default select example" id="empresa"
                                     name="empresa">
-                                    <option value="1" class="fw-light">Apolo</option>
-                                    <option value="2" class="fw-light">Otro</option>
+                                    <option th:each="empresa : ${emprelist}" th:text="${empresa.nombre}" th:value="${empresa.id}" class="fw-light"></option>
                                 </select>
                             </div>
                         </div>
+                        <!--Campo para Fecha-->
+                        <div class="row text-center justify-content-center">
+                            <div class="col-md-5">
+                                <label class="pt-3 fw-light form-label" for="fecha">
+                                    <i class="bi bi-calendar4-week"></i> Fecha del movimiento</label>
+                                <input type="date" th:field="*{fechaMovimiento}" id="fecha" required class="fw-light form-control w-100 text-center" readonly>
+                            </div>
+                        </div>
+
+
+
                         <div class="pt-4 row text-center">
                             <div class="col">
                                 <input type="submit" value="Guardar" class="btn btn-outline-dark w-75 text-center"
@@ -149,6 +165,11 @@
             easing: 'ease-out-back',
             duration: 2500
         });
+    </script>
+    <script th:inline="javascript">
+    window.onload=function(){
+    document.getElementById("fecha").value=new Date().toJSON().slice(0,10).replace(/-/g,'-');
+    }
     </script>
 </body>
 

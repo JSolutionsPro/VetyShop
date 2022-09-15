@@ -1,11 +1,16 @@
 package com.apolosolutions.Apolo.Controlador;
 
+import com.apolosolutions.Apolo.Modelos.Empresa;
 import com.apolosolutions.Apolo.Modelos.MovimientoDinero;
+import com.apolosolutions.Apolo.Modelos.Usuario;
+import com.apolosolutions.Apolo.Servicios.EmpresaServicios;
 import com.apolosolutions.Apolo.Servicios.MovimientoDineroServicios;
+import com.apolosolutions.Apolo.Servicios.UsuarioServicios;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -15,36 +20,68 @@ public class MovimientoDineroControlador {
     @Autowired
     MovimientoDineroServicios movimientoDineroServicios;
 
-    @GetMapping(path = "/movimientos")
+    @Autowired
+    UsuarioServicios usuarioServicios;
+
+    @Autowired
+    EmpresaServicios empresaServicios;
+
+
+    @GetMapping(path = "/VerMovimientos")
     public String listarMovimientos(Model model){
         List<MovimientoDinero> movlist = movimientoDineroServicios.ListarMovimientos();
         model.addAttribute("movlist", movlist);
+        Long sumaMovimientos= movimientoDineroServicios.obtenerSumaMovimientos();
+        model.addAttribute("sumaMontos",sumaMovimientos);
         return "verMovimientos";
     }
 
-    @PostMapping(path = "/movimientos") //Ojo el Body debe traer el ID de usuario y empresa
-    public MovimientoDinero guardarMovimiento(@RequestBody MovimientoDinero movimiento) {
-        return movimientoDineroServicios.guardarActualizarMovimiento(movimiento);
+    @GetMapping(path = "/AgregarMovimiento")
+    public String agregarMovimiento(Model model){
+        MovimientoDinero mov= new MovimientoDinero();
+        model.addAttribute("mov", mov);
+        List<Usuario> listaUsuarios = usuarioServicios.ListarUsuarios();
+        model.addAttribute("usualist", listaUsuarios);
+        List<Empresa> listaEmpresas = empresaServicios.listaEmpresas();
+        model.addAttribute("emprelist", listaEmpresas);
+        return "agregarMovimiento";
     }
 
-    @PatchMapping(path = "/movimientos/{id}") //ID del movimiento
-    public MovimientoDinero actualizarMovimiento(@PathVariable("id") Integer id, @RequestBody MovimientoDinero movimiento){
-        MovimientoDinero mov = movimientoDineroServicios.consultarMovimiento(id);
-        mov.setConcepto(movimiento.getConcepto());
-        mov.setMonto(movimiento.getMonto());
-        mov.setUsuario(movimiento.getUsuario());
-        mov.setEmpresa(movimiento.getEmpresa());
-        return movimientoDineroServicios.guardarActualizarMovimiento(mov);
+    @PostMapping(path = "/GuardarMovimiento") //Ojo el Body debe traer el ID de usuario y empresa
+    public String guardarMovimiento(MovimientoDinero movimiento, RedirectAttributes redirectAttributes) {
+         if(movimientoDineroServicios.guardarActualizarMovimiento(movimiento)== true){
+             return "redirect:/VerMovimientos";
+         }
+        return "redirect:/AgregarMovimiento";
     }
 
-    @DeleteMapping(path = "/movimientos/{id}") //ID del movimiento
-    public String eliminarMovimiento (@PathVariable ("id") Integer id){
-        boolean respuesta= movimientoDineroServicios.eliminarMovimiento(id);
-        if (respuesta){
-            return "Si se elimino el movimiento con ID "+id;
+    @GetMapping(path ="/EditarMovimiento/{id}") //ID del movimiento
+    public String editarMovimiento(Model model, @PathVariable("id") Integer id){
+        MovimientoDinero movimiento= movimientoDineroServicios.consultarMovimiento(id);
+        model.addAttribute("mov", movimiento);
+        List<Usuario> listaUsuarios = usuarioServicios.ListarUsuarios();
+        model.addAttribute("usualist", listaUsuarios);
+        List<Empresa> listaEmpresas = empresaServicios.listaEmpresas();
+        model.addAttribute("emprelist", listaEmpresas);
+
+        return "editarMovimiento";
+    }
+
+    @PostMapping(path = "/ActualizarMovimiento")
+    public String actualizarMovimiento(@ModelAttribute ("movimiento") MovimientoDinero movimiento, RedirectAttributes redirectAttributes){
+        if(movimientoDineroServicios.guardarActualizarMovimiento(movimiento)){
+            return "redirect:/VerMovimientos";
+        }
+        return "redirect:/EditarMovimiento/"+movimiento.getId();
+    }
+
+    @GetMapping(path = "/EliminarMovimiento/{id}") //ID del movimiento
+    public String eliminarMovimiento (@PathVariable ("id") Integer id, RedirectAttributes redirectAttributes){
+        if (movimientoDineroServicios.eliminarMovimiento(id)){
+            return "redirect:/VerMovimientos";
         }
         else {
-            return "No se elimino el movimiento con ID "+id;
+            return "redirect:/VerMovimientos";
         }
     }
 
