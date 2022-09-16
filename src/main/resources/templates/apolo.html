@@ -28,7 +28,7 @@
                     <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start text-white w-100"
                         id="menu">
                         <li class="nav-item w-100" data-aos="fade-right" >
-                            <a href="#" class="nav-link align-middle text-white active px-3">
+                            <a th:href="@{/Inicio}" class="nav-link align-middle text-white active px-3">
                                 <i class="fs-4 bi-house mr-3"></i> <span class="ms-1 d-none d-sm-inline">Inicio</span>
                             </a>
                         </li>
@@ -38,7 +38,7 @@
                                     class="ms-1 d-none d-sm-inline">Usuarios</span></a>
                         </li>
                         <li class="nav-item w-100" data-aos="fade-right" >
-                            <a href="verEmpresas.html" class="nav-link align-middle text-white px-3">
+                            <a th:href="@{VerEmpresas}" class="nav-link align-middle text-white px-3">
                                 <i class="fs-4 bi bi-building mr-3"></i><span class="ms-1 d-none d-sm-inline">
                                     Empresas</span>
                             </a>
@@ -95,7 +95,7 @@
                     <div class="row row-cols-1 row-cols-md-3 g-4 " style="margin-top: -40px;">
                         <div class="col pt-5">
                             <div class="card" data-aos="slide-up" data-aos-duration="4000">
-                                <img src="img/empleados.jpg" class="card-img-top" alt="...">
+                                <img  th:src="@{/images/empleados.jpg}" class="card-img-top" alt="..." />
                                 <div class="card-body">
                                     <a href="verUsuarios.html"
                                         class="card-title btn btn-outline-dark text-center w-100 fw-light">
@@ -106,9 +106,9 @@
                         </div>
                         <div class="col pt-5">
                             <div class="card" data-aos="slide-up" data-aos-duration="3000">
-                                <img src="img/empresas.jpg" class="card-img-top" alt="...">
+                                <img th:src="@{/images/empresas.jpg}" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <a href="verEmpresas.html"
+                                    <a th:href="@{VerEmpresas}"
                                         class="card-title btn btn-outline-dark text-center w-100 fw-light">
                                         Empresas
                                         <i class="fs-5 bi bi-building mr-3"></i>
@@ -118,7 +118,7 @@
                         </div>
                         <div class="col pt-5">
                             <div class="card" data-aos="slide-up" data-aos-duration="3000">
-                                <img src="img/transacciones.jpg" class="card-img-top" alt="...">
+                                <img th:src="@{/images/transacciones.jpg}" class="card-img-top" alt="...">
                                 <div class="card-body">
                                     <a href="verMovimientos.html"
                                         class="card-title btn btn-outline-dark text-center w-100 fw-light">
