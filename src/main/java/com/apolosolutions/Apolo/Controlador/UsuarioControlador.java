@@ -14,7 +14,7 @@ public class UsuarioControlador {
     @Autowired
     UsuarioServicios usuarioServicios;
 
-    @GetMapping(path = "/usuarios/") //ver todos los usuarios
+    @GetMapping(path = "/usuarios") //ver todos los usuarios
     public List<Usuario> verUsuario(){
         return usuarioServicios.ListarUsuarios();
     }
@@ -29,18 +29,14 @@ public class UsuarioControlador {
         return usuarioServicios.consultarUsuario(id);
     }
 
-    @GetMapping("/empresas/{id}/usuarios") //Consultar por empresa
-    public ArrayList<Usuario> UsuarioPorEmpresa(@PathVariable("id") Integer id){
-        return usuarioServicios.obtenerPorEmpresa(id);
-    }
-
     @PatchMapping("usuarios/{id}") //Actualizar usuarios
     public Usuario actualizarUsuario(@PathVariable("id") Integer id, @RequestBody Usuario usuario){
         Usuario usuario1=usuarioServicios.consultarUsuario(id);
-        usuario1.setNombre(usuario1.getNombre());
-        usuario1.setCorreo(usuario1.getCorreo());
-        usuario1.setEmpresa(usuario1.getEmpresa());
-        usuario1.setRol(usuario1.getRol());
+        usuario1.setNombre(usuario.getNombre());
+        usuario1.setCorreo(usuario.getCorreo());
+        usuario1.setEmpresa(usuario.getEmpresa());
+        usuario1.setMovimientos(usuario.getMovimientos());
+        usuario1.setRol(usuario.getRol());
         return usuarioServicios.guardarActualizarUsuario(usuario1);
     }
 
@@ -52,6 +48,9 @@ public class UsuarioControlador {
         }
         return "No se logro eliminar usuario con id "+id;
     }
-
+    @GetMapping("/empresas/{id}/usuarios") //Consultar por ID empresa
+    public ArrayList<Usuario> UsuarioPorEmpresa(@PathVariable("id") Integer id){
+        return usuarioServicios.obtenerPorEmpresa(id);
+    }
 
 }
