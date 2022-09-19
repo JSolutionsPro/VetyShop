@@ -108,7 +108,7 @@
                             <tbody>
                               <tr th:each="movimiento : ${movlist}">
                                 <th scope="row" th:text="${movimiento.id}"></th>
-                                <td th:text="${movimiento.concepto}"></td>
+                                <td th:text="${movimiento.concepto}" style="" width="200px"></td>
                                   <td th:text="${#strings.replace(#numbers.formatCurrency(movimiento.monto), ',00', '')}"></td>
                                   <td th:text="${movimiento.usuario.nombre}"></td>
                                   <td th:text="${movimiento.empresa.nombre}"></td>
@@ -120,11 +120,11 @@
                               </tr>
                             </tbody>
                           </table>
-                        <div class="row justify-content-center" >
-                            <div class="form-group col-md-12">
-                                <label class="col-md-3" for="sumaMontos">Total Movimientos</label>
-                                <div class="col-md-3">
-                                    <p th:text="${#numbers.formatCurrency(sumaMontos)}" class="form-control text-center" id="sumaMontos"></p>
+                        <div class="row text-center m-auto" >
+                            <div class="col">
+                                <label class="col fw-bold" for="sumaMontos">Total Movimientos</label>
+                                <div class="col">
+                                    <p th:text="${#numbers.formatCurrency(sumaMontos)}" class="form-control text-center m-auto" style="text-align: center; border:none;" id="sumaMontos"></p>
                                 </div>
                             </div>
                         </div>
@@ -142,7 +142,7 @@
     <script>
         AOS.init({
             easing: 'ease-out-back',
-            duration: 2500
+            duration: 1500
         });
     </script>
 </body>
