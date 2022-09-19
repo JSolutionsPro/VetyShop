@@ -27,9 +27,12 @@ public class UsuarioServicios {
     }
 
     //Metodo para guardar o actualizar un usuario
-    public Usuario guardarActualizarUsuario(Usuario usuario){
-
-        return usuarioRepositorio.save(usuario);
+    public boolean guardarActualizarUsuario(Usuario usuario){
+        Usuario us=usuarioRepositorio.save(usuario);
+        if (usuarioRepositorio.findById(us.getId())!=null){
+            return true;
+        }
+        return false;
     }
 
     //Metodo para eliminar un usuario

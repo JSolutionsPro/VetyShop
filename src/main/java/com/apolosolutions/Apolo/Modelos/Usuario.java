@@ -37,11 +37,12 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String nombre, String correo, RolEmpleado rol, Empresa empresa, List<MovimientoDinero> movimientos) {
+    public Usuario(String nombre, String correo, RolEmpleado rol, Empresa empresa, int empresa_id, List<MovimientoDinero> movimientos) {
         this.nombre = nombre;
         this.correo = correo;
         this.rol = rol;
         this.empresa = empresa;
+        this.empresa_id = empresa_id;
         this.movimientos = movimientos;
     }
 
