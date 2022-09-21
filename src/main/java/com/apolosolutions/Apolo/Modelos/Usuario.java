@@ -1,8 +1,11 @@
 package com.apolosolutions.Apolo.Modelos;
 
 import com.apolosolutions.Apolo.Modelos.enums.RolEmpleado;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name= "Usuario")
@@ -12,22 +15,58 @@ public class Usuario {
     private int id;
     @Column(name = "nombre")
     private String nombre;
-    @Column(name = "correo")
+    @Column(name = "correo", unique = true)
     private String correo;
-    @ManyToOne
-    @JoinColumn(name = "empresa_id")
-    private Empresa empresa;
     @Column(name = "rol")
+    @Enumerated(value = EnumType.STRING)
     private RolEmpleado rol;
+
+    //Relacion empresa-usuario
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", foreignKey = @ForeignKey(name="fk_usuario_empresa"), insertable = false, updatable = false)
+    @JsonBackReference(value="empresa-usuario")
+    private Empresa empresa;
+    private int empresa_id;
+
+    private String contrasena;
+
+    public  Boolean estado;
+
+    //Relacion usuario-movimiento
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @JsonManagedReference(value="usuario-movimiento")
+    private List<MovimientoDinero> movimientos;
+
 
     public Usuario() {
     }
 
-    public Usuario(String nombre, String correo, Empresa empresa, RolEmpleado rol) {
+
+    public Usuario(String nombre, String correo, RolEmpleado rol, Empresa empresa, int empresa_id, List<MovimientoDinero> movimientos, String contrasena, Boolean estado) {
         this.nombre = nombre;
         this.correo = correo;
-        this.empresa = empresa;
         this.rol = rol;
+        this.empresa = empresa;
+        this.empresa_id = empresa_id;
+        this.movimientos = movimientos;
+        this.contrasena = contrasena;
+        this.estado= estado;
+    }
+
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
     public int getId() {
@@ -70,6 +109,21 @@ public class Usuario {
         this.rol = rol;
     }
 
+    public int getEmpresa_id() {
+        return empresa_id;
+    }
+
+    public void setEmpresa_id(int empresa_id) {
+        this.empresa_id = empresa_id;
+    }
+
+    public List<MovimientoDinero> getMovimientos() {
+        return movimientos;
+    }
+
+    public void setMovimientos(List<MovimientoDinero> movimientos) {
+        this.movimientos = movimientos;
+    }
     @Override
     public String toString() {
         return "- Datos del Usuario - \n" +
@@ -79,4 +133,5 @@ public class Usuario {
                 " Rol: " + getRol() +
                 "\n---------------------- ";
     }
+
 }
