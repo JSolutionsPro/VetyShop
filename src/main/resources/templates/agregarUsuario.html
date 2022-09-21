@@ -103,7 +103,6 @@
                                     id="nombre" aria-describedby="emailHelp" placeholder="Ejemplo: Pepito Perez">
                             </div>
                             <div class="col">
-
                                 <label class="pt-3 fw-light form-label"><i class="bi bi-at"></i> Correo*</label>
                                 <input th:field="*{correo}" type="email" name="email" required class="fw-light form-control w-100" id="email"
                                     aria-describedby="emailHelp" placeholder="Ejemplo: ejemplo@gmail.com">
@@ -126,6 +125,21 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col">
+                                <label class="pt-3 fw-light form-label"><i class="bi bi-at"></i> Contrasena del usuario</label>
+                                <input th:field="*{contrasena}" type="password" name="contrasena" required class="fw-light form-control w-100" id="contrasena"
+                                       aria-describedby="emailHelp">
+                            </div>
+                            <div class="col">
+                                <label class="pt-3 fw-light form-label"><i
+                                        class="bi bi-people"></i> Estado actual del empleado </label>
+                                <select th:field="*{estado}" class="fw-light form-select w-100" id="estado" required="required">
+                                    <option th:value=1>Activo</option>
+                                    <option th:value=0>Inactivo</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="pt-4 row text-center">
                             <div class="col">
                                 <input type="submit" value="Guardar" class="btn btn-outline-dark w-75 text-center"
@@ -136,7 +150,10 @@
                 </div>
             </div>
         </div>
+     <!--Campo para contrasena-->
     </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
         crossorigin="anonymous"></script>

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link rel="icon" th:href="@{/images/icono.svg}">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
 <body class="fw-light">
@@ -100,18 +101,21 @@
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Correo</th>
                                 <th scope="col">Rol</th>
+                                <th scope="col">Estado</th>
                                 <th scope="col">Empresa</th>
                                 <th scope="col">Acciones</th>
                               </tr>
 
                             </thead>
                             <tbody>
-                            <tr th:each="usuario : ${listausuarios}">
+                            <tr th:each="usuario : ${userlist}">
                                   <td th:text="${usuario.id}"></td>
                                   <td th:text="${usuario.nombre}"></td>
                                   <td th:text="${usuario.correo}"></td>
                                   <td th:if="${usuario.rol.toString() =='ROLE_ADMIN'}">Administrativo</td>
                                   <td th:if="${usuario.rol.toString() =='ROLE_USER'}">Operativo</td>
+                                  <td th:if="${usuario.estado==true}">Activo</td>
+                                  <td th:if="${usuario.estado==false}">Inactivo</td>
                                   <td th:text="${usuario.empresa.nombre}"></td>
                                 <td>
                                     <a th:href="@{/EditarUsuario/{id}(id=${usuario.id})}" class="btn btn-outline-primary"><i class="bi bi-pencil"></i></a> <!--EDITAR -->
@@ -120,7 +124,19 @@
                               </tr>
                             </tbody>
                           </table>
-                          <a th:href="@{/AgregarEmpleado}" class="btn btn-outline-success">Agregar Usuario <i class="bi bi-plus-lg"></i></a>
+                        <!--paginacion-->
+                        <div class="container">
+                            <nav aria-label="Ejemplo navegacion">
+                                <ul class="pagination mt-4 justify-content-center">
+                                    <li th:class="${paginaActual==estado.index} ? 'active' : '' "
+                                        th:each="pagina, estado: ${paginas}" class="page-item">
+                                        <a th:href="@{/VerUsuarios/(pagina=${estado.index})}" class="page-link"
+                                           th:text="${estado.index}+1"></a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                          <a th:href="@{/AgregarUsuario}" class="btn btn-outline-success">Agregar Usuario <i class="bi bi-plus-lg"></i></a>
                     </div>
                     
                 </div>
@@ -137,6 +153,45 @@
             duration: 2500
         });
     </script>
+    <script th:inline="javascript">
+    window.onload=function(){
+
+        var msg= [[${mensaje}]];
+        if (msg == "saveOK"){
+            swal({
+                    title: "Creación exitosa!",
+                    text: "El usuario se ha creado exitosamente!",
+                    icon: "success",
+                    button: "Aceptar",
+                    });
+            }
+        else if (msg == "updateOK"){
+            swal({
+                    title: "Actualización exitosa!",
+                    text: "El usuario se ha actualizado exitosamente!",
+                    icon: "success",
+                    button: "Aceptar",
+                    });
+        }
+        else if (msg == "deleteOK"){
+            swal({
+            title: "Eliminación exitosa!",
+                    text: "El usuario se ha eliminado exitosamente!",
+                    icon: "info",
+                    button: "Aceptar",
+                    });
+        }
+        else if (msg == "deleteError"){
+            swal({
+            title: "Error!",
+                    text: "El usuario no se ha eliminado!",
+                    icon: "error",
+                    button: "Aceptar",
+                    });
+        }
+    }
+
+</script>
 </body>
 
 </html>

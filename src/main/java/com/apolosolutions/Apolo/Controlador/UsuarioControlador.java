@@ -2,9 +2,15 @@ package com.apolosolutions.Apolo.Controlador;
 
 import com.apolosolutions.Apolo.Modelos.Empresa;
 import com.apolosolutions.Apolo.Modelos.Usuario;
+import com.apolosolutions.Apolo.Repositorios.UsuarioRepositorio;
 import com.apolosolutions.Apolo.Servicios.EmpresaServicios;
 import com.apolosolutions.Apolo.Servicios.UsuarioServicios;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +28,15 @@ public class UsuarioControlador {
     @Autowired
     EmpresaServicios empresaServicios;
 
+    @Autowired
+    UsuarioRepositorio usuarioRepositorio;
     @GetMapping(path = "/VerUsuarios") //ver todos los usuarios
-    public String viewEmpleados(Model model, @ModelAttribute("mensaje") String mensaje){
-        List<Usuario> listaUsuarios=usuarioServicios.ListarUsuarios();
-        model.addAttribute("listausuarios",listaUsuarios);
+    public String viewEmpleados(@RequestParam(value="pagina", required=false, defaultValue = "0") int NumeroPagina,
+                                @RequestParam(value="medida", required=false, defaultValue = "4") int medida,Model model, @ModelAttribute("mensaje") String mensaje){
+            Page<Usuario> paginaUsuario= usuarioRepositorio.findAll(PageRequest.of(NumeroPagina,medida));
+        model.addAttribute("userlist",paginaUsuario.getContent());
+        model.addAttribute("paginas",new int[paginaUsuario.getTotalPages()]);
+        model.addAttribute("paginaActual", NumeroPagina);
         model.addAttribute("mensaje", mensaje);
         return "verUsuarios";
     }
@@ -43,6 +54,8 @@ public class UsuarioControlador {
     @PostMapping("/GuardarUsuario")
 
     public String guardarusuario(Usuario usuario, RedirectAttributes redirectAttributes){
+        String contrasenaEncriptada=codificador().encode(usuario.getContrasena());
+        usuario.setContrasena(contrasenaEncriptada);
         if(usuarioServicios.guardarActualizarUsuario(usuario)){
             redirectAttributes.addFlashAttribute("mensaje","saveOK");
             return "redirect:/VerUsuarios";
@@ -65,6 +78,12 @@ public class UsuarioControlador {
     @PostMapping("/ActualizarUsuario")
 
     public String actualizarUsuario(@ModelAttribute("usuario") Usuario usuario, RedirectAttributes redirectAttributes){
+        Integer id= usuario.getId();
+        String RegistroAntiguo=usuarioServicios.consultarUsuario(id).getContrasena();
+        if(!usuario.getContrasena().equals(RegistroAntiguo)){
+            String contrasenaEncriptada=codificador().encode(usuario.getContrasena());
+            usuario.setContrasena(contrasenaEncriptada);
+        }
         if(usuarioServicios.guardarActualizarUsuario(usuario)){
             redirectAttributes.addFlashAttribute("mensaje","updateOK");
             return "redirect:/VerUsuarios";
@@ -83,6 +102,16 @@ public class UsuarioControlador {
         return "redirect:/VerUsuarios";
     }
 
+    @RequestMapping(value="/Denegado")
+    public String accesoDenegado(){
+        return "accessDenied";
+    }
+
+    //Encriptacion
+    @Bean
+    public PasswordEncoder codificador(){
+        return new BCryptPasswordEncoder();
+    }
 
 
 
