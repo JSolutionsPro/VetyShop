@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Acceso denegado</title>
+  <link rel="icon" th:href="@{/images/icono.svg}">
+  <link rel="stylesheet" th:href="@{/styles/style.css}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="lock"></div>
+<div class="message">
+  <h1>El acceso a esta pagina está restringido</h1>
+  <p style="text-align: center">Por favor revisa los permisos con el administrador.</p>
+  <div class="text-center">
+    <a th:href="@{/Inicio}" class="btn btn-outline-primary" style="text-align: center">Volver</a>
+    <a th:href="@{/logout}" class="btn btn-outline-danger text-center">Cerrar Sesión</a>
+  </div>
+
+</div>
+<!-- partial -->
+  
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+</html>
