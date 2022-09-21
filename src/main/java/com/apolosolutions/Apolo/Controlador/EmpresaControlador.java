@@ -22,7 +22,7 @@ public class EmpresaControlador {
     @Autowired
     EmpresaRepositorio empresaRepositorio;
 
-    @GetMapping({"/","/Inicio"})
+    @GetMapping({"/Inicio"})
     public String principal(){
         return "apolo";
     }

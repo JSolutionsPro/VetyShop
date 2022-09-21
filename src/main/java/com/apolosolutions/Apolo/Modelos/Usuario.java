@@ -28,6 +28,10 @@ public class Usuario {
     private Empresa empresa;
     private int empresa_id;
 
+    private String contrasena;
+
+    public  Boolean estado;
+
     //Relacion usuario-movimiento
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     @JsonManagedReference(value="usuario-movimiento")
@@ -37,12 +41,32 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String nombre, String correo, RolEmpleado rol, Empresa empresa, List<MovimientoDinero> movimientos) {
+
+    public Usuario(String nombre, String correo, RolEmpleado rol, Empresa empresa, int empresa_id, List<MovimientoDinero> movimientos, String contrasena, Boolean estado) {
         this.nombre = nombre;
         this.correo = correo;
         this.rol = rol;
         this.empresa = empresa;
+        this.empresa_id = empresa_id;
         this.movimientos = movimientos;
+        this.contrasena = contrasena;
+        this.estado= estado;
+    }
+
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
     public int getId() {
