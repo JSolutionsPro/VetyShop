@@ -145,7 +145,7 @@
 
                         <div class="pt-4 row text-center">
                             <div class="col">
-                                <input type="submit" value="Guardar" class="btn btn-outline-dark w-75 text-center"
+                                <input type="submit" id="guardar" value="Guardar" class="btn btn-outline-dark w-75 text-center"
                                     name="guardar">
                             </div>
                         </div>
@@ -168,6 +168,11 @@
     window.onload=function(){
     document.getElementById("fecha").value=new Date().toJSON().slice(0,10).replace(/-/g,'-');
     }
+
+    document.getElementById("guardar").addEventListener("click",function(){
+    document.getElementById("fecha").disabled=false;
+    })
+
     </script>
 </body>
 
