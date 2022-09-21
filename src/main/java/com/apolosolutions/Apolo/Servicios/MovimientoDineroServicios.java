@@ -22,8 +22,12 @@ public class MovimientoDineroServicios {
                 return movimientoDineroRepositorio.findById(id).get();
         }
 
-        public MovimientoDinero guardarActualizarMovimiento(MovimientoDinero movimientoDinero){
-                return movimientoDineroRepositorio.save(movimientoDinero);
+        public boolean guardarActualizarMovimiento(MovimientoDinero movimiento){
+                MovimientoDinero mov = movimientoDineroRepositorio.save(movimiento);
+                if (movimientoDineroRepositorio.findById(movimiento.getId())!=null){
+                        return true;
+                }
+                return false;
         }
 
         public boolean eliminarMovimiento(Integer id){
@@ -58,6 +62,10 @@ public class MovimientoDineroServicios {
 
         public List<MovimientoDinero> consultarMovimientosDeUsuariosPorEmpresa(Integer id){
                 return movimientoDineroRepositorio.findMovimientosOfUsuariosByEmpresa(id);
+        }
+
+        public Long obtenerSumaMovimientos(){
+                return movimientoDineroRepositorio.SumarMovimientos();
         }
 
 }

@@ -171,7 +171,7 @@ public class UsuarioControlador {
         return usuarioServicios.consultarUsuario(id);
     }
 
-    @PatchMapping("usuarios/{id}") //Actualizar usuarios
+    @PatchMapping("/usuarios/{id}") //Actualizar usuarios
     public Usuario actualizarUsuario(@PathVariable("id") Integer id, @RequestBody Usuario usuario){
         Usuario usuario1=usuarioServicios.consultarUsuario(id);
         usuario1.setNombre(usuario.getNombre());
