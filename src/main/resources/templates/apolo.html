@@ -33,7 +33,7 @@
                             </a>
                         </li>
                         <li class="nav-item w-100" data-aos="fade-left" >
-                            <a href="verUsuarios.html" class="nav-link align-middle text-white px-3">
+                            <a th:href="@{VerUsuarios}" class="nav-link align-middle text-white px-3">
                                 <i class="fs-4 bi bi-people mr-3"></i> <span
                                     class="ms-1 d-none d-sm-inline">Usuarios</span></a>
                         </li>
@@ -44,7 +44,7 @@
                             </a>
                         </li>
                         <li class="nav-item w-100" data-aos="fade-left" >
-                            <a href="verMovimientos.html" class="nav-link align-middle text-white px-3">
+                            <a th:href="@{VerMovimientos}" class="nav-link align-middle text-white px-3">
                                 <i class="fs-4 bi bi-currency-exchange mr-3"></i><span class="ms-1 d-none d-sm-inline">
                                     Transacciones</span>
                             </a>
@@ -97,7 +97,7 @@
                             <div class="card" data-aos="slide-up" data-aos-duration="4000">
                                 <img  th:src="@{/images/empleados.jpg}" class="card-img-top" alt="..." />
                                 <div class="card-body">
-                                    <a href="verUsuarios.html"
+                                    <a th:href="@{/VerUsuarios}"
                                         class="card-title btn btn-outline-dark text-center w-100 fw-light">
                                         Usuarios 
                                         <i class="fs-5 bi bi-people mr-3 ml-5"></i></a>
@@ -120,7 +120,7 @@
                             <div class="card" data-aos="slide-up" data-aos-duration="3000">
                                 <img th:src="@{/images/transacciones.jpg}" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <a href="verMovimientos.html"
+                                    <a th:href="@{/VerMovimientos}"
                                         class="card-title btn btn-outline-dark text-center w-100 fw-light">
                                         Transacciones
                                         <i class="fs-5 bi bi-currency-exchange mr-3"></i>
