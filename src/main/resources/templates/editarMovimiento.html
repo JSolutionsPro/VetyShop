@@ -147,7 +147,7 @@
 
                         <div class="pt-4 row text-center">
                             <div class="col">
-                                <input type="submit" value="Actualizar" class="btn btn-outline-dark w-75 text-center"
+                                <input type="submit" id="actualizar" value="Actualizar" class="btn btn-outline-dark w-75 text-center"
                                        name="actualizar">
                             </div>
                         </div>
@@ -165,6 +165,10 @@
             easing: 'ease-out-back',
             duration: 1500
         });
+        document.getElementById("actualizar").addEventListener("click",function(){
+        document.getElementById("id").disabled=false;
+        document.getElementById("fecha").disabled=false;
+        })
     </script>
 
 </body>
