@@ -22,7 +22,7 @@ public class EmpresaControlador {
     @Autowired
     EmpresaRepositorio empresaRepositorio;
 
-    @GetMapping({"/Index"})
+    @GetMapping({"/"})
     public String index(){
         return "index";
     }

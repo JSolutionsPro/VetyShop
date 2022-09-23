@@ -30,8 +30,9 @@ public class ConfiguracionDeSeguridad extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests().antMatchers("/").permitAll();
         http.authorizeRequests()
-                .antMatchers("/","/VerEmpresas/**").hasRole("ADMIN")
+                .antMatchers("/VerEmpresas/**").hasRole("ADMIN")
                 .antMatchers("/EditarEmpresa/**").hasRole("ADMIN")
                 .antMatchers("/AgregarEmpresa/**").hasRole("ADMIN")
                 .antMatchers("/EliminarEmpresa/**").hasRole("ADMIN")
@@ -44,7 +45,10 @@ public class ConfiguracionDeSeguridad extends WebSecurityConfigurerAdapter {
                 .antMatchers("/EditarMovimiento/**").hasAnyRole("ADMIN","USER")
                 .antMatchers("/EliminarMovimiento/**").hasAnyRole("ADMIN","USER")
                 .antMatchers("/Inicio").hasAnyRole("ADMIN","USER")
-                .and().formLogin().successHandler(customSuccessHandler)
+                .and()
+                .formLogin().successHandler(customSuccessHandler)
+                .defaultSuccessUrl("/Inicio")
+                .permitAll()
                 .and().exceptionHandling().accessDeniedPage("/Denegado")
                 .and().logout().permitAll();
     }
