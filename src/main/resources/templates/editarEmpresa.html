@@ -27,66 +27,56 @@
                     <hr class="w-100" style="margin-top: 0px;">
                     <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start text-white w-100"
                         id="menu">
-                        <li class="nav-item w-100" data-aos="fade-up">
+                        <li class="nav-item w-100">
                             <a  th:href="@{/Inicio}" class="nav-link align-middle text-white  px-3">
                                 <i class="fs-4 bi-house mr-3"></i> <span class="ms-1 d-none d-sm-inline">Inicio</span>
                             </a>
                         </li>
-                        <li class="nav-item w-100" data-aos="fade-up">
-                            <a href="verUsuarios.html" class="nav-link align-middle text-white px-3 ">
+                        <li class="nav-item w-100">
+                            <a th:href="@{/VerUsuarios}" class="nav-link align-middle text-white px-3 ">
                                 <i class="fs-4 bi bi-people mr-3"></i> <span
                                     class="ms-1 d-none d-sm-inline">Usuarios</span></a>
                         </li>
-                        <li class="nav-item w-100" data-aos="fade-up">
-                            <a href="verEmpresas.html" class="nav-link align-middle text-white px-3 active">
+                        <li class="nav-item w-100" >
+                            <a th:href="@{/VerEmpresas}" class="nav-link align-middle text-white px-3 active">
                                 <i class="fs-4 bi bi-building mr-3"></i><span class="ms-1 d-none d-sm-inline">
                                     Empresas</span>
                             </a>
                         </li>
-                        <li class="nav-item w-100" data-aos="fade-up">
-                            <a href="verMovimientos.html" class="nav-link align-middle text-white px-3">
+                        <li class="nav-item w-100" >
+                            <a th:href="@{/VerMovimientos}" class="nav-link align-middle text-white px-3">
                                 <i class="fs-4 bi bi-currency-exchange mr-3"></i><span class="ms-1 d-none d-sm-inline">
                                     Transacciones</span>
                             </a>
                         </li>
-                        <li class="nav-item w-100" data-aos="fade-up">
+                        <li class="nav-item w-100" >
                             <a href="#" class="nav-link align-middle text-white px-3">
                                 <i class="fs-4 bi bi-speedometer2 mr-3"></i><span class="ms-1 d-none d-sm-inline "> Mis
                                     Datos</span>
                             </a>
                         </li>
                     </ul>
-                    <hr class="w-100">
-                    <div class="dropdown pb-4 fixed-bottom mx-3">
-
-                        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                            id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30"
-                                class="rounded-circle">
-                            <span class="d-none d-sm-inline mx-1">User</span>
-                        </a>
-
-                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow ">
-                            <li><a class="dropdown-item" href="#">Mis Datos</a></li>
-                            <li><a class="dropdown-item" href="#">Actualizar</a></li>
-                            <li><a class="dropdown-item" href="#">Perfil</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Salir</a></li>
-                        </ul>
-                    </div>
                 </div>
             </div>
 
             <div class="col py-3">
-                <div>
-                    <h3 class="ml-5 pl-5 fw-light text-end mb-4">
-                        Bienvenido Usuario
-                        <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30"
-                            class="rounded-circle">
-                    </h3>
-                    <hr>
+                <div class="ml-5 pl-5 fw-light text-end">
+                    <div class="dropdown ">
+                        <a class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30"
+                                 class="rounded-circle">
+                            Bienvenido [[${#httpServletRequest.getUserPrincipal().getName()}]]
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-light">
+                            <li><a class="dropdown-item active" >Mi Perfil</a></li>
+                            <li><a class="dropdown-item" >Actualizar Datos</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item " th:href="@{/logout}">Salir</a></li>
+                        </ul>
+                        <hr>
+                    </div>
                 </div>
 
                 <div class="py-4 mt-5 container" data-aos="fade-up">
