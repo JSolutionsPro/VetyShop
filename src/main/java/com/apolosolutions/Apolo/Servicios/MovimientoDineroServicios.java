@@ -67,5 +67,10 @@ public class MovimientoDineroServicios {
         public Long obtenerSumaMovimientos(){
                 return movimientoDineroRepositorio.SumarMovimientos();
         }
-
+        public Long obtenerIngresosMovimientos(){
+                return movimientoDineroRepositorio.SumarIngresosMovimientos();
+        }
+        public Long obtenerEgresosMovimientos(){
+                return movimientoDineroRepositorio.SumarEgresosMovimientos();
+        }
 }

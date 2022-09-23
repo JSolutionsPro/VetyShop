@@ -140,12 +140,24 @@
                             </tbody>
                           </table>
 
-                        <!--Campo para total de movimientos-->
+                        <!--Campo para totales de movimientos-->
                         <div class="row text-center m-auto" >
                             <div class="col">
                                 <label class="col fw-bold" for="sumaMontos">Total de Movimientos</label>
                                 <div class="col">
-                                    <p th:text="${#numbers.formatCurrency(sumaMontos)}" class="form-control text-center m-auto" style="text-align: center; border:none;" id="sumaMontos"></p>
+                                    <p th:text="${#strings.replace(#numbers.formatCurrency(sumaMontos), ',00', '')}" class="form-control text-center m-auto" style="text-align: center; border:none;" id="sumaMontos"></p>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label class="col fw-bold text-success" for="ingresoMontos">Total de Ingresos</label>
+                                <div class="col">
+                                    <p th:text="${#strings.replace(#numbers.formatCurrency(ingresoMontos), ',00', '')}" class="form-control text-center m-auto" style="text-align: center; border:none;" id="ingresoMontos"></p>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label class="col fw-bold text-danger" for="egresoMontos">Total de Egresos</label>
+                                <div class="col">
+                                    <p th:text="${#strings.replace(#numbers.formatCurrency(egresoMontos), ',00', '')}" class="form-control text-center m-auto" style="text-align: center; border:none;" id="egresoMontos"></p>
                                 </div>
                             </div>
                 </div>

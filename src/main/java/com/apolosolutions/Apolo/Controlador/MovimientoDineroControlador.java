@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,12 +38,16 @@ public class MovimientoDineroControlador {
 
     @GetMapping(path = "/VerMovimientos")
     public String listarMovimientos( @RequestParam(value="pagina", required=false, defaultValue = "0") int NumeroPagina,
-                                     @RequestParam(value="medida", required=false, defaultValue = "6") int medida,
+                                     @RequestParam(value="medida", required=false, defaultValue = "7") int medida,
                                      Model model,@ModelAttribute("mensaje") String mensaje){
         Page<MovimientoDinero> paginaMovimientos= movimientoDineroRepositorio.findAll(PageRequest.of(NumeroPagina,medida, Sort.by("id").ascending()));
         model.addAttribute("movlist",paginaMovimientos.getContent());
         Long sumaMovimientos= movimientoDineroServicios.obtenerSumaMovimientos();
+        Long ingresosMovimientos = movimientoDineroServicios.obtenerIngresosMovimientos();
+        Long egresosMovimientos= movimientoDineroServicios.obtenerEgresosMovimientos();
         model.addAttribute("sumaMontos",sumaMovimientos);
+        model.addAttribute("ingresoMontos",ingresosMovimientos);
+        model.addAttribute("egresoMontos",egresosMovimientos);
         model.addAttribute("paginas",new int[paginaMovimientos.getTotalPages()]);
         model.addAttribute("paginaActual", NumeroPagina);
         model.addAttribute("mensaje",mensaje);
@@ -52,8 +58,10 @@ public class MovimientoDineroControlador {
     public String agregarMovimiento(Model model, @ModelAttribute("mensaje") String mensaje){
         MovimientoDinero mov= new MovimientoDinero();
         model.addAttribute("mov", mov);
-        List<Usuario> listaUsuarios = usuarioServicios.ListarUsuarios();
-        model.addAttribute("usualist", listaUsuarios);
+        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+        String correo=auth.getName();
+        Usuario usuarioSesion=usuarioServicios.movimientoPorCorreo(correo);
+        model.addAttribute("usuarioSesion",usuarioSesion);
         List<Empresa> listaEmpresas = empresaServicios.listaEmpresas();
         model.addAttribute("emprelist", listaEmpresas);
         model.addAttribute("mensaje", mensaje);

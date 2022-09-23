@@ -123,8 +123,7 @@
                             <div class="col">
                                 <label for="monto" class="pt-3 fw-light form-label">
                                     <i class="bi bi-currency-dollar"></i> Monto *</label>
-                                <input type="number" th:field="*{monto}" name="monto" required class="fw-light form-control w-100" id="monto"
-                                       placeholder="Ejemplo: 45.000">
+                                <input type="number" th:field="*{monto}" name="monto" required class="fw-light form-control w-100" id="monto">
                             </div>
                         </div>
 
@@ -132,10 +131,10 @@
                         <div class="row">
                             <div class="col">
                                 <label for="usuario" class="pt-3 fw-light form-label">
-                                    <i class="bi bi-people"></i> Usuario *</label>
+                                    <i class="bi bi-people"></i> Usuario responsable *</label>
                                 <select th:field="*{usuario_id}" class="fw-light form-select w-100" aria-label="Default select example" id="usuario"
-                                        name="usuario">
-                                    <option th:each="usuario : ${usualist}" th:text="${usuario.nombre}" th:value="${usuario.id}" class="fw-light"></option>
+                                        name="usuario" disabled readonly>
+                                    <option th:value=*{usuario.id} th:text=*{usuario.nombre} class="fw-light"></option>
                                 </select>
                             </div>
 
@@ -174,6 +173,7 @@
         document.getElementById("actualizar").addEventListener("click",function(){
         document.getElementById("id").disabled=false;
         document.getElementById("fecha").disabled=false;
+        document.getElementById("usuario").disabled=false;
         })
     </script>
 

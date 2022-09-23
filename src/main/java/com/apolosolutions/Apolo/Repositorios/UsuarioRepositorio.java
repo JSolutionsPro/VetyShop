@@ -13,4 +13,6 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario,Integer> {
     @Query(value="SELECT * FROM Usuario WHERE empresa_id= ?1", nativeQuery=true)
     public abstract ArrayList<Usuario> findByEmpresa(Integer id);
 
+    @Query(value="SELECT * FROM usuario WHERE correo=?1", nativeQuery = true)
+    public abstract Usuario usuarioPorCorreo(String correo);
 }
