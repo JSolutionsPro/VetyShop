@@ -49,4 +49,8 @@ public class UsuarioServicios {
         return usuarioRepositorio.findByEmpresa(id);
     }
 
+    //Metodo para buscar la info de usuario por su correo
+    public Usuario movimientoPorCorreo(String Correo){
+        return usuarioRepositorio.usuarioPorCorreo(Correo);
+    }
 }
