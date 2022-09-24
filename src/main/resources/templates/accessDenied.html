@@ -16,7 +16,9 @@
   <p style="text-align: center">Por favor revisa los permisos con el administrador.</p>
   <div class="text-center">
     <a th:href="@{/Inicio}" class="btn btn-outline-primary" style="text-align: center">Volver</a>
-    <a th:href="@{/logout}" class="btn btn-outline-danger text-center">Cerrar Sesión</a>
+    <form th:action="@{/logout}" method="post">
+      <input type="submit" value="Salir" class="btn btn-outline-primary" style="text-align: center">
+    </form>
   </div>
 
 </div>

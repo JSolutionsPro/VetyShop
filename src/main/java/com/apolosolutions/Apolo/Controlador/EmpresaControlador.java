@@ -22,6 +22,16 @@ public class EmpresaControlador {
     @Autowired
     EmpresaRepositorio empresaRepositorio;
 
+    @GetMapping({"/"})
+    public String index(){
+        return "index";
+    }
+
+    @GetMapping({"/login"})
+    public String login(){
+        return "login";
+    }
+
     @GetMapping({"/Inicio"})
     public String principal(){
         return "apolo";
