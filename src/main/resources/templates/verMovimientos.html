@@ -81,7 +81,9 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item " th:href="@{/logout}">Salir</a></li>
+                            <form th:action="@{/logout}" method="post">
+                                <input type="submit" value="Salir" class="dropdown-item">
+                            </form>
                         </ul>
                         <hr>
                     </div>
@@ -121,7 +123,7 @@
                               <tr th:each="movimiento : ${movlist}">
                                 <th scope="row" th:text="${movimiento.id}"></th>
                                 <td th:text="${movimiento.concepto}" style="" width="200px"></td>
-                                  <td th:text="${#strings.replace(#numbers.formatCurrency(movimiento.monto), ',00', '')}"></td>
+                                  <td th:text="${#numbers.formatCurrency(movimiento.monto)}"></td>
                                   <td th:text="${movimiento.usuario.nombre}"></td>
                                   <td th:text="${movimiento.empresa.nombre}"></td>
                                   <td th:text="${#temporals.format(movimiento.fechaMovimiento, 'dd/MM/yyyy')}"></td>

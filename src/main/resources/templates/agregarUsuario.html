@@ -73,7 +73,9 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item " th:href="@{/logout}">Salir</a></li>
+                            <form th:action="@{/logout}" method="post">
+                                <input type="submit" value="Salir" class="dropdown-item">
+                            </form>
                         </ul>
                         <hr>
                     </div>
@@ -117,13 +119,13 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <label class="pt-3 fw-light form-label"><i class="bi bi-lock"></i> Contrasena del usuario</label>
+                                <label class="pt-3 fw-light form-label"><i class="bi bi-lock"></i> Contraseña*</label>
                                 <input th:field="*{contrasena}" type="password" name="contrasena" required class="fw-light form-control w-100" id="contrasena"
                                        aria-describedby="emailHelp">
                             </div>
                             <div class="col">
                                 <label class="pt-3 fw-light form-label"><i
-                                        class="bi bi-people"></i> Estado actual del empleado </label>
+                                        class="bi bi-people"></i> Estado actual del Usuario* </label>
                                 <select th:field="*{estado}" class="fw-light form-select w-100" id="estado" required="required">
                                     <option th:value=1>Activo</option>
                                     <option th:value=0>Inactivo</option>

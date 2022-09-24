@@ -47,9 +47,14 @@ public class ConfiguracionDeSeguridad extends WebSecurityConfigurerAdapter {
                 .antMatchers("/Inicio").hasAnyRole("ADMIN","USER")
                 .and()
                 .formLogin().successHandler(customSuccessHandler)
+                .loginPage("/login")
+                .usernameParameter("email")
+                .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/Inicio")
                 .permitAll()
                 .and().exceptionHandling().accessDeniedPage("/Denegado")
-                .and().logout().permitAll();
+                .and().logout().
+                logoutUrl("/logout")
+                .logoutSuccessUrl("/").permitAll();
     }
 }

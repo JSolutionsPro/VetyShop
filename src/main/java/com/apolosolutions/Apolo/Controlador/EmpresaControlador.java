@@ -27,6 +27,11 @@ public class EmpresaControlador {
         return "index";
     }
 
+    @GetMapping({"/login"})
+    public String login(){
+        return "login";
+    }
+
     @GetMapping({"/Inicio"})
     public String principal(){
         return "apolo";

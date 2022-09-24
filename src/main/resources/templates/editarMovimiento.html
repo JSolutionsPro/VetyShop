@@ -77,7 +77,9 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item " th:href="@{/logout}">Salir</a></li>
+                            <form th:action="@{/logout}" method="post">
+                                <input type="submit" value="Salir" class="dropdown-item">
+                            </form>
                         </ul>
                         <hr>
                     </div>
