@@ -143,21 +143,21 @@
                         <!--Campo para totales de movimientos-->
                         <div class="row text-center m-auto" >
                             <div class="col">
-                                <label class="col fw-bold" for="sumaMontos">Total de Movimientos</label>
+                                <label class="col fw-bold" for="sumaMontos">Total de Transacciones</label>
                                 <div class="col">
-                                    <p th:text="${#strings.replace(#numbers.formatCurrency(sumaMontos), ',00', '')}" class="form-control text-center m-auto" style="text-align: center; border:none;" id="sumaMontos"></p>
+                                    <p th:text="${#strings.replace(#numbers.formatCurrency(totales.get(0)), ',00', '')}" class="form-control text-center m-auto" style="text-align: center; border:none;" id="sumaMontos"></p>
                                 </div>
                             </div>
                             <div class="col">
                                 <label class="col fw-bold text-success" for="ingresoMontos">Total de Ingresos</label>
                                 <div class="col">
-                                    <p th:text="${#strings.replace(#numbers.formatCurrency(ingresoMontos), ',00', '')}" class="form-control text-center m-auto" style="text-align: center; border:none;" id="ingresoMontos"></p>
+                                    <p th:text="${#strings.replace(#numbers.formatCurrency(totales.get(1)), ',00', '')}" class="form-control text-center m-auto" style="text-align: center; border:none;" id="ingresoMontos"></p>
                                 </div>
                             </div>
                             <div class="col">
                                 <label class="col fw-bold text-danger" for="egresoMontos">Total de Egresos</label>
                                 <div class="col">
-                                    <p th:text="${#strings.replace(#numbers.formatCurrency(egresoMontos), ',00', '')}" class="form-control text-center m-auto" style="text-align: center; border:none;" id="egresoMontos"></p>
+                                    <p th:text="${#strings.replace(#numbers.formatCurrency(totales.get(2)), ',00', '')}" class="form-control text-center m-auto" style="text-align: center; border:none;" id="egresoMontos"></p>
                                 </div>
                             </div>
                 </div>
@@ -165,21 +165,29 @@
                         <div class="container">
                             <nav>
                                 <ul class="pagination mt-4 justify-content-center">
-                                    <li class="page-item">
-                                        <a class="page-link" aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                            <span class="sr-only"></span>
+                                    <li th:class="${paginaActual eq 0} ? 'page-item disabled' : 'page-item'">
+                                        <a th:href="@{/VerMovimientos/(pagina=0)}" class="page-link" aria-label="Primera pagina">
+                                            <i class="bi bi-chevron-double-left"></i>
                                         </a>
                                     </li>
-                                    <li th:class="${paginaActual==estado.index} ? 'active' : '' "
+                                    <li th:class="${paginaActual eq 0} ? 'page-item disabled' : 'page-item'">
+                                        <a th:href="@{/VerMovimientos/(pagina=${paginaActual-1})}" class="page-link" aria-label="Anterior">
+                                            <i class="bi bi-chevron-left"></i>
+                                        </a>
+                                    </li>
+                                    <li th:class="${paginaActual==estado.index} ? 'page-item active' : 'page-item'"
                                         th:each="pagina, estado: ${paginas}" class="page-item">
                                         <a th:href="@{/VerMovimientos/(pagina=${estado.index})}" class="page-link"
-                                           th:text="${estado.index}+1"></a>
+                                           th:text="${estado.index}+1" aria-label="Anterior"></a>
                                     </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                            <span class="sr-only"></span>
+                                    <li th:class="${paginaActual lt paginas.length-1} ? 'page-item' : 'page-item disabled'">
+                                        <a class="page-link" th:href="@{/VerMovimientos/(pagina=${paginaActual+1})}" aria-label="Siguiente">
+                                            <i class="bi bi-chevron-right"></i>
+                                        </a>
+                                    </li>
+                                    <li th:class="${paginaActual lt paginas.length-1} ? 'page-item' : 'page-item disabled'">
+                                        <a class="page-link" th:href="@{/VerMovimientos/(pagina=${paginas.length-1})}" aria-label="Ultima pagina">
+                                            <i class="bi bi-chevron-double-right"></i>
                                         </a>
                                     </li>
                                 </ul>
