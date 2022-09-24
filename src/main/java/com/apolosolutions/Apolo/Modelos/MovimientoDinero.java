@@ -1,8 +1,10 @@
 package com.apolosolutions.Apolo.Modelos;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 
 @Entity
@@ -30,15 +32,21 @@ public class MovimientoDinero {
     private Empresa empresa;
     private int empresa_id;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate fechaMovimiento;
+
 
     public MovimientoDinero() {
     }
 
-    public MovimientoDinero(long monto, String concepto, Usuario usuario, Empresa empresa) {
+    public MovimientoDinero(long monto, String concepto, Usuario usuario, int usuario_id, Empresa empresa, int empresa_id, LocalDate fechaMovimiento) {
         this.monto = monto;
         this.concepto = concepto;
         this.usuario = usuario;
+        this.usuario_id = usuario_id;
         this.empresa = empresa;
+        this.empresa_id = empresa_id;
+        this.fechaMovimiento = fechaMovimiento;
     }
 
     public int getId() {
@@ -94,6 +102,14 @@ public class MovimientoDinero {
     public void setEmpresa_id(int empresa_id) {
         this.empresa_id = empresa_id;
     }
+    public LocalDate getFechaMovimiento() {
+        return fechaMovimiento;
+    }
+
+    public void setFechaMovimiento(LocalDate fechaMovimiento) {
+        this.fechaMovimiento = fechaMovimiento;
+    }
+
     @Override
     public String toString() {
         return "- Datos del movimiento - \n" +
@@ -102,5 +118,6 @@ public class MovimientoDinero {
                 " Empleado: " + getUsuario().getNombre() + '\n' +
                 "---------------------- ";
     }
+
 
 }

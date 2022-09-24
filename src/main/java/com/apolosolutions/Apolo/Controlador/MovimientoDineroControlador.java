@@ -1,47 +1,105 @@
 package com.apolosolutions.Apolo.Controlador;
 
+import com.apolosolutions.Apolo.Modelos.Empresa;
 import com.apolosolutions.Apolo.Modelos.MovimientoDinero;
+import com.apolosolutions.Apolo.Modelos.Usuario;
+import com.apolosolutions.Apolo.Repositorios.MovimientoDineroRepositorio;
+import com.apolosolutions.Apolo.Servicios.EmpresaServicios;
 import com.apolosolutions.Apolo.Servicios.MovimientoDineroServicios;
+import com.apolosolutions.Apolo.Servicios.UsuarioServicios;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class MovimientoDineroControlador {
 
     @Autowired
     MovimientoDineroServicios movimientoDineroServicios;
 
-    @GetMapping(path = "/movimientos")
-    public List<MovimientoDinero> listarMovimientos(){
-        return movimientoDineroServicios.ListarMovimientos();
+    @Autowired
+    MovimientoDineroRepositorio movimientoDineroRepositorio;
+
+    @Autowired
+    UsuarioServicios usuarioServicios;
+
+    @Autowired
+    EmpresaServicios empresaServicios;
+
+
+    @GetMapping(path = "/VerMovimientos")
+    public String listarMovimientos( @RequestParam(value="pagina", required=false, defaultValue = "0") int NumeroPagina,
+                                     @RequestParam(value="medida", required=false, defaultValue = "6") int medida,
+                                     Model model,@ModelAttribute("mensaje") String mensaje){
+        Page<MovimientoDinero> paginaMovimientos= movimientoDineroRepositorio.findAll(PageRequest.of(NumeroPagina,medida, Sort.by("id").ascending()));
+        model.addAttribute("movlist",paginaMovimientos.getContent());
+        Long sumaMovimientos= movimientoDineroServicios.obtenerSumaMovimientos();
+        model.addAttribute("sumaMontos",sumaMovimientos);
+        model.addAttribute("paginas",new int[paginaMovimientos.getTotalPages()]);
+        model.addAttribute("paginaActual", NumeroPagina);
+        model.addAttribute("mensaje",mensaje);
+        return "verMovimientos";
     }
 
-    @PostMapping(path = "/movimientos") //Ojo el Body debe traer el ID de usuario y empresa
-    public MovimientoDinero guardarMovimiento(@RequestBody MovimientoDinero movimiento) {
-        return movimientoDineroServicios.guardarActualizarMovimiento(movimiento);
+    @GetMapping(path = "/AgregarMovimiento")
+    public String agregarMovimiento(Model model, @ModelAttribute("mensaje") String mensaje){
+        MovimientoDinero mov= new MovimientoDinero();
+        model.addAttribute("mov", mov);
+        List<Usuario> listaUsuarios = usuarioServicios.ListarUsuarios();
+        model.addAttribute("usualist", listaUsuarios);
+        List<Empresa> listaEmpresas = empresaServicios.listaEmpresas();
+        model.addAttribute("emprelist", listaEmpresas);
+        model.addAttribute("mensaje", mensaje);
+        return "agregarMovimiento";
     }
 
-    @PatchMapping(path = "/movimientos/{id}") //ID del movimiento
-    public MovimientoDinero actualizarMovimiento(@PathVariable("id") Integer id, @RequestBody MovimientoDinero movimiento){
-        MovimientoDinero mov = movimientoDineroServicios.consultarMovimiento(id);
-        mov.setConcepto(movimiento.getConcepto());
-        mov.setMonto(movimiento.getMonto());
-        mov.setUsuario(movimiento.getUsuario());
-        mov.setEmpresa(movimiento.getEmpresa());
-        return movimientoDineroServicios.guardarActualizarMovimiento(mov);
+    @PostMapping(path = "/GuardarMovimiento") //Ojo el Body debe traer el ID de usuario y empresa
+    public String guardarMovimiento(MovimientoDinero movimiento, RedirectAttributes redirectAttributes) {
+         if(movimientoDineroServicios.guardarActualizarMovimiento(movimiento)){
+             redirectAttributes.addFlashAttribute("mensaje","saveOK");
+             return "redirect:/VerMovimientos";
+         }
+        redirectAttributes.addFlashAttribute("mensaje","saveError");
+        return "redirect:/AgregarMovimiento";
     }
 
-    @DeleteMapping(path = "/movimientos/{id}") //ID del movimiento
-    public String eliminarMovimiento (@PathVariable ("id") Integer id){
-        boolean respuesta= movimientoDineroServicios.eliminarMovimiento(id);
-        if (respuesta){
-            return "Si se elimino el movimiento con ID "+id;
+    @GetMapping(path ="/EditarMovimiento/{id}") //ID del movimiento
+    public String editarMovimiento(Model model, @PathVariable("id") Integer id, @ModelAttribute("mensaje") String mensaje){
+        MovimientoDinero movimiento= movimientoDineroServicios.consultarMovimiento(id);
+        model.addAttribute("mov", movimiento);
+        List<Usuario> listaUsuarios = usuarioServicios.ListarUsuarios();
+        model.addAttribute("usualist", listaUsuarios);
+        List<Empresa> listaEmpresas = empresaServicios.listaEmpresas();
+        model.addAttribute("emprelist", listaEmpresas);
+        model.addAttribute("mensaje", mensaje);
+        return "editarMovimiento";
+    }
+
+    @PostMapping(path = "/ActualizarMovimiento")
+    public String actualizarMovimiento(@ModelAttribute ("movimiento") MovimientoDinero movimiento, RedirectAttributes redirectAttributes){
+        if(movimientoDineroServicios.guardarActualizarMovimiento(movimiento)){
+            redirectAttributes.addFlashAttribute("mensaje","updateOK");
+            return "redirect:/VerMovimientos";
         }
-        else {
-            return "No se elimino el movimiento con ID "+id;
+        redirectAttributes.addFlashAttribute("mensaje","updateError");
+        return "redirect:/EditarMovimiento/"+movimiento.getId();
+    }
+
+    @GetMapping(path = "/EliminarMovimiento/{id}") //ID del movimiento
+    public String eliminarMovimiento (@PathVariable ("id") Integer id, RedirectAttributes redirectAttributes){
+        if (movimientoDineroServicios.eliminarMovimiento(id)){
+            redirectAttributes.addFlashAttribute("mensaje", "deleteOK");
+            return "redirect:/VerMovimientos";
         }
+            redirectAttributes.addFlashAttribute("memsaje", "deleteError");
+            return "redirect:/VerMovimientos";
     }
 
     @GetMapping(path = "/usuarios/{id}/movimientos") //ID del usuario
