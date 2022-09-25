@@ -34,15 +34,15 @@
                         </a>
                     </li>
                     <li class="nav-item w-100" >
-                        <a th:href="@{/VerUsuarios}" class="nav-link align-middle text-white px-3 ">
-                            <i class="fs-4 bi bi-people mr-3"></i> <span
-                                class="ms-1 d-none d-sm-inline">Usuarios</span></a>
-                    </li>
-                    <li class="nav-item w-100" >
                         <a th:href="@{/VerEmpresas}" class="nav-link align-middle text-white px-3 active">
                             <i class="fs-4 bi bi-building mr-3"></i><span class="ms-1 d-none d-sm-inline">
                                     Empresas</span>
                         </a>
+                    </li>
+                    <li class="nav-item w-100" >
+                        <a th:href="@{/VerUsuarios}" class="nav-link align-middle text-white px-3 ">
+                            <i class="fs-4 bi bi-people mr-3"></i> <span
+                                class="ms-1 d-none d-sm-inline">Usuarios</span></a>
                     </li>
                     <li class="nav-item w-100">
                         <a th:href="@{/VerMovimientos}"  class="nav-link align-middle text-white px-3">
@@ -111,7 +111,7 @@
                             <th scope="col">Acciones</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody data-aos="fade-in">
                         <tr th:each="empresa: ${emplist}">
                             <td th:text="${empresa.id}"></td>
                             <td th:text="${empresa.nombre}"></td>
@@ -128,17 +128,37 @@
                         </tr>
                         </tbody>
                     </table>
-                    <!--paginacion-->
+                    <!-- Campo de paginacion -->
                     <div class="container">
-                    <nav aria-label="Ejemplo navegacion">
-                        <ul class="pagination mt-4 justify-content-center">
-                            <li th:class="${paginaActual==estado.index} ? 'active' : '' "
-                                th:each="pagina, estado: ${paginas}" class="page-item">
-                                <a th:href="@{/VerEmpresas/(pagina=${estado.index})}" class="page-link"
-                                   th:text="${estado.index}+1"></a>
-                            </li>
-                        </ul>
-                    </nav>
+                        <nav>
+                            <ul class="pagination mt-4 justify-content-center">
+                                <li th:class="${paginaActual eq 0} ? 'page-item disabled' : 'page-item'">
+                                    <a th:href="@{''(pagina=0)}" class="page-link" aria-label="Primera pagina">
+                                        <i class="bi bi-chevron-double-left"></i>
+                                    </a>
+                                </li>
+                                <li th:class="${paginaActual eq 0} ? 'page-item disabled' : 'page-item'">
+                                    <a th:href="@{''(pagina=${paginaActual-1})}" class="page-link" aria-label="Anterior">
+                                        <i class="bi bi-chevron-left"></i>
+                                    </a>
+                                </li>
+                                <li th:class="${paginaActual==estado.index} ? 'page-item active' : 'page-item'"
+                                    th:each="pagina, estado: ${paginas}" class="page-item">
+                                    <a th:href="@{''(pagina=${estado.index})}" class="page-link"
+                                       th:text="${estado.index}+1" aria-label="Anterior"></a>
+                                </li>
+                                <li th:class="${paginaActual lt paginas.length-1} ? 'page-item' : 'page-item disabled'">
+                                    <a class="page-link" th:href="@{''(pagina=${paginaActual+1})}" aria-label="Siguiente">
+                                        <i class="bi bi-chevron-right"></i>
+                                    </a>
+                                </li>
+                                <li th:class="${paginaActual lt paginas.length-1} ? 'page-item' : 'page-item disabled'">
+                                    <a class="page-link" th:href="@{''(pagina=${paginas.length-1})}" aria-label="Ultima pagina">
+                                        <i class="bi bi-chevron-double-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
 
@@ -153,7 +173,7 @@
 <script>
         AOS.init({
             easing: 'ease-out-back',
-            duration: 2500
+            duration: 1500
         });
 
 </script>

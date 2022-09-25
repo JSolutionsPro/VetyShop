@@ -40,21 +40,23 @@ public class ConfiguracionDeSeguridad extends WebSecurityConfigurerAdapter {
                 .antMatchers("/AgregarUsuario").hasRole("ADMIN")
                 .antMatchers("/EditarUsuario/**").hasRole("ADMIN")
                 .antMatchers("/EliminarUsuario/**").hasRole("ADMIN")
-                .antMatchers("/VerMovimientos/**").hasAnyRole("ADMIN","USER")
+                .antMatchers("/VerMovimientos").hasAnyRole("ADMIN")
+                .antMatchers("/VerMovimientos/MiEmpresa/").hasAnyRole("ADMIN","USER")
+                .antMatchers("/VerMovimientos/MisMovimientos/").hasAnyRole("ADMIN","USER")
                 .antMatchers("/AgregarMovimiento/**").hasAnyRole("ADMIN","USER")
                 .antMatchers("/EditarMovimiento/**").hasAnyRole("ADMIN","USER")
                 .antMatchers("/EliminarMovimiento/**").hasAnyRole("ADMIN","USER")
                 .antMatchers("/Inicio").hasAnyRole("ADMIN","USER")
                 .and()
-                .formLogin().successHandler(customSuccessHandler)
-                .loginPage("/login")
+                .formLogin()
+                .loginPage("/login").successHandler(customSuccessHandler)
                 .usernameParameter("email")
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/Inicio")
-                .permitAll()
-                .and().exceptionHandling().accessDeniedPage("/Denegado")
-                .and().logout().
-                logoutUrl("/logout")
-                .logoutSuccessUrl("/").permitAll();
+                .defaultSuccessUrl("/Inicio",true)
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/").permitAll()
+                .and().exceptionHandling().accessDeniedPage("/Denegado");
     }
 }

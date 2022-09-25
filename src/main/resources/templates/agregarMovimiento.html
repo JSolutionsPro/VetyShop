@@ -34,24 +34,26 @@
                     </li>
                     <div sec:authorize="hasRole('ADMIN')">
                         <li class="nav-item w-100">
-                            <a th:href="@{/VerUsuarios}" class="nav-link align-middle text-white px-3 ">
-                                <i class="fs-4 bi bi-people mr-3"></i> <span
-                                    class="ms-1 d-none d-sm-inline">Usuarios</span></a>
-                        </li>
-                    </div>
-                    <div sec:authorize="hasRole('ADMIN')">
-                        <li class="nav-item w-100">
                             <a th:href="@{/VerEmpresas}"class="nav-link align-middle text-white px-3 ">
                                 <i class="fs-4 bi bi-building mr-3"></i><span class="ms-1 d-none d-sm-inline">
                                         Empresas</span>
                             </a>
                         </li>
                     </div>
+                    <div sec:authorize="hasRole('ADMIN')">
+                        <li class="nav-item w-100">
+                            <a th:href="@{/VerUsuarios}" class="nav-link align-middle text-white px-3 ">
+                                <i class="fs-4 bi bi-people mr-3"></i> <span
+                                    class="ms-1 d-none d-sm-inline">Usuarios</span></a>
+                        </li>
+                    </div>
                     <li class="nav-item w-100">
-                        <a th:href="@{/VerMovimientos}" class="nav-link align-middle text-white px-3 active">
+                        <a sec:authorize="hasRole('ADMIN')" th:href="@{/VerMovimientos}" class="nav-link align-middle text-white px-3 active">
                             <i class="fs-4 bi bi-currency-exchange mr-3"></i><span class="ms-1 d-none d-sm-inline">
-                                    Transacciones</span>
-                        </a>
+                                    Transacciones</span></a>
+                        <a sec:authorize="hasRole('USER')" th:href="@{/VerMovimientos/MiEmpresa/}" class="nav-link align-middle text-white px-3 active">
+                            <i class="fs-4 bi bi-currency-exchange mr-3"></i><span class="ms-1 d-none d-sm-inline">
+                                    Transacciones</span></a>
                     </li>
                     <li class="nav-item w-100">
                         <a href="#" class="nav-link align-middle text-white px-3">
@@ -65,7 +67,7 @@
 
             <div class="col py-3">
                 <div class="ml-5 pl-5 fw-light text-end">
-                    <div class="dropdown ">
+                    <div class="dropdown">
                         <a class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30"
                                  class="rounded-circle">
@@ -87,8 +89,8 @@
 
                 <div class="py-4 mt-5 container" data-aos="fade-up">
                     <form th:action="@{/GuardarMovimiento}" th:object="${mov}" method="POST" class="py-4 px-5 mx-5 shadow-lg">
-                        <h1 class="fw-light"> <a th:href="@{/VerMovimientos}"class="btn btn-outline-dark"><i
-                                    class="bi bi-arrow-left"></i></a> Crear un movimiento nuevo </h1>
+                        <h1 class="fw-light"> <a onclick="atras()" id="atras" class="btn btn-outline-dark">
+                            <i class="bi bi-arrow-left"></i></a> Crear un movimiento nuevo </h1>
                         <p class="pt-3 text-muted fst-italic">Por favor ingrese los siguientes datos, recuerde que todos
                             son obligatorios.</p>
 
@@ -137,11 +139,9 @@
                                 <input type="date" th:field="*{fechaMovimiento}" id="fecha" required class="fw-light form-control w-100 text-center" disabled readonly>
                             </div>
                         </div>
-
                         <div class="pt-4 row text-center">
                             <div class="col">
-                                <input type="submit" id="guardar" value="Guardar" class="btn btn-outline-dark w-75 text-center"
-                                    name="guardar">
+                                <input type="submit" id="guardar"  value="Guardar" class="btn btn-outline-dark w-75 text-center" name="guardar">
                             </div>
                         </div>
                     </form>
@@ -168,6 +168,10 @@
     document.getElementById("fecha").disabled=false;
     document.getElementById("usuario").disabled=false;
     })
+
+    function atras(){
+      window.location.href = localStorage.getItem("url");
+    }
 
     </script>
 </body>

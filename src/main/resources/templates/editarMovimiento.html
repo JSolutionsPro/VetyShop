@@ -34,24 +34,26 @@
                     </li>
                     <div sec:authorize="hasRole('ADMIN')">
                         <li class="nav-item w-100">
-                            <a th:href="@{/VerUsuarios}" class="nav-link align-middle text-white px-3 ">
-                                <i class="fs-4 bi bi-people mr-3"></i> <span
-                                    class="ms-1 d-none d-sm-inline">Usuarios</span></a>
-                        </li>
-                    </div>
-                    <div sec:authorize="hasRole('ADMIN')">
-                        <li class="nav-item w-100">
                             <a th:href="@{/VerEmpresas}"class="nav-link align-middle text-white px-3 ">
                                 <i class="fs-4 bi bi-building mr-3"></i><span class="ms-1 d-none d-sm-inline">
                                         Empresas</span>
                             </a>
                         </li>
                     </div>
+                    <div sec:authorize="hasRole('ADMIN')">
+                        <li class="nav-item w-100">
+                            <a th:href="@{/VerUsuarios}" class="nav-link align-middle text-white px-3 ">
+                                <i class="fs-4 bi bi-people mr-3"></i> <span
+                                    class="ms-1 d-none d-sm-inline">Usuarios</span></a>
+                        </li>
+                    </div>
                     <li class="nav-item w-100">
-                        <a th:href="@{/VerMovimientos}" class="nav-link align-middle text-white px-3 active">
+                        <a sec:authorize="hasRole('ADMIN')" th:href="@{/VerMovimientos}" class="nav-link align-middle text-white px-3 active">
                             <i class="fs-4 bi bi-currency-exchange mr-3"></i><span class="ms-1 d-none d-sm-inline">
-                                    Transacciones</span>
-                        </a>
+                                    Transacciones</span></a>
+                        <a sec:authorize="hasRole('USER')" th:href="@{/VerMovimientos/MiEmpresa/}" class="nav-link align-middle text-white px-3 active">
+                            <i class="fs-4 bi bi-currency-exchange mr-3"></i><span class="ms-1 d-none d-sm-inline">
+                                    Transacciones</span></a>
                     </li>
                     <li class="nav-item w-100">
                         <a href="#" class="nav-link align-middle text-white px-3">
@@ -87,7 +89,7 @@
 
                 <div class="py-4 mt-5 container" data-aos="fade-up">
                     <form th:action="@{/ActualizarMovimiento}" th:object="${mov}" th:method="POST" class="py-4 px-5 mx-5 shadow-lg">
-                        <h1 class="fw-light"> <a th:href="@{/VerMovimientos}"class="btn btn-outline-dark"><i
+                        <h1 class="fw-light"> <a onclick="atras()" id="atras" class="btn btn-outline-dark"><i
                                 class="bi bi-arrow-left"></i></a> Editar movimiento/transacción </h1>
                         <p class="pt-3 text-muted fst-italic">IMPORTANTE: Recuerde que el campo ID y Fecha del movimiento no pueden ser editados.</p>
 
@@ -170,7 +172,11 @@
         document.getElementById("id").disabled=false;
         document.getElementById("fecha").disabled=false;
         document.getElementById("usuario").disabled=false;
-        })
+        }
+        )
+    function atras(){
+      window.location.href = localStorage.getItem("url");
+    }
     </script>
 
 </body>

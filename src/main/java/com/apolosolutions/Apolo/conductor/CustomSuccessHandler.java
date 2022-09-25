@@ -39,11 +39,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             roles.add(a.getAuthority());
         }
 
-        if (esAdministrativo(roles)) {
+        if (esAdministrativo(roles) || esOperativo(roles)) {
             url = "/Inicio";
-        } else if (esOperativo(roles)) {
-            url = "/VerMovimientos";
-        } else {
+        }  else {
             url = "/Denegado";
         }
         return url;

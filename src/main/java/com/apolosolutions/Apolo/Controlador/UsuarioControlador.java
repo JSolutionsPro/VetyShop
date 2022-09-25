@@ -32,7 +32,7 @@ public class UsuarioControlador {
     UsuarioRepositorio usuarioRepositorio;
     @GetMapping(path = "/VerUsuarios") //ver todos los usuarios
     public String viewEmpleados(@RequestParam(value="pagina", required=false, defaultValue = "0") int NumeroPagina,
-                                @RequestParam(value="medida", required=false, defaultValue = "4") int medida,Model model, @ModelAttribute("mensaje") String mensaje){
+                                @RequestParam(value="medida", required=false, defaultValue = "8") int medida,Model model, @ModelAttribute("mensaje") String mensaje){
             Page<Usuario> paginaUsuario= usuarioRepositorio.findAll(PageRequest.of(NumeroPagina,medida));
         model.addAttribute("userlist",paginaUsuario.getContent());
         model.addAttribute("paginas",new int[paginaUsuario.getTotalPages()]);
