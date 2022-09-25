@@ -32,24 +32,26 @@
                         </li>
                         <div sec:authorize="hasRole('ADMIN')">
                             <li class="nav-item w-100" data-aos="fade-left" >
-                                <a th:href="@{VerUsuarios}" class="nav-link align-middle text-white px-3">
-                                    <i class="fs-4 bi bi-people mr-3"></i> <span
-                                        class="ms-1 d-none d-sm-inline">Usuarios</span></a>
-                            </li>
-                        </div>
-                        <div sec:authorize="hasRole('ADMIN')">
-                            <li class="nav-item w-100" data-aos="fade-right" >
                                 <a th:href="@{VerEmpresas}" class="nav-link align-middle text-white px-3">
                                     <i class="fs-4 bi bi-building mr-3"></i><span class="ms-1 d-none d-sm-inline">
                                         Empresas</span>
                                 </a>
                             </li>
                         </div>
-                        <li class="nav-item w-100" data-aos="fade-left" >
-                            <a th:href="@{VerMovimientos}" class="nav-link align-middle text-white px-3">
+                        <div sec:authorize="hasRole('ADMIN')">
+                            <li class="nav-item w-100" data-aos="fade-right" >
+                                <a th:href="@{VerUsuarios}" class="nav-link align-middle text-white px-3">
+                                    <i class="fs-4 bi bi-people mr-3"></i> <span
+                                        class="ms-1 d-none d-sm-inline">Usuarios</span></a>
+                            </li>
+                        </div>
+                        <li class="nav-item w-100" data-aos="fade-left">
+                            <a sec:authorize="hasRole('ADMIN')" th:href="@{/VerMovimientos}" class="nav-link align-middle text-white px-3">
                                 <i class="fs-4 bi bi-currency-exchange mr-3"></i><span class="ms-1 d-none d-sm-inline">
-                                    Transacciones</span>
-                            </a>
+                                    Transacciones</span></a>
+                            <a sec:authorize="hasRole('USER')" th:href="@{/VerMovimientos/MiEmpresa/}" class="nav-link align-middle text-white px-3">
+                                <i class="fs-4 bi bi-currency-exchange mr-3"></i><span class="ms-1 d-none d-sm-inline">
+                                    Transacciones</span></a>
                         </li>
                         <li class="nav-item w-100" data-aos="fade-right" >
                             <a href="#" class="nav-link align-middle text-white px-3">
@@ -87,8 +89,20 @@
                 </div>
                 <div class="container pt-2">
                     <div class="row row-cols-1 row-cols-md-3 g-4 " style="margin-top: -40px;">
+                        <div class="col pt-5" sec:authorize="hasRole('ADMIN')">
+                            <div class="card" data-aos="slide-up" data-aos-duration="1100">
+                                <img th:src="@{/images/empresas.jpg}" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <a th:href="@{/VerEmpresas}"
+                                       class="card-title btn btn-outline-dark text-center w-100 fw-light">
+                                        Empresas
+                                        <i class="fs-5 bi bi-building mr-3"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col pt-5"  sec:authorize="hasRole('ADMIN')">
-                            <div class="card" data-aos="slide-up" data-aos-duration="4000">
+                            <div class="card" data-aos="slide-up" data-aos-duration="1200">
                                 <img  th:src="@{/images/empleados.jpg}" class="card-img-top" alt="..."  />
                                 <div class="card-body">
                                     <a th:href="@{/VerUsuarios}"
@@ -98,24 +112,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col pt-5" sec:authorize="hasRole('ADMIN')">
-                            <div class="card" data-aos="slide-up" data-aos-duration="3000">
-                                <img th:src="@{/images/empresas.jpg}" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <a th:href="@{/VerEmpresas}"
-                                        class="card-title btn btn-outline-dark text-center w-100 fw-light">
-                                        Empresas
-                                        <i class="fs-5 bi bi-building mr-3"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
                         <div class="col pt-5">
-                            <div class="card" data-aos="slide-up" data-aos-duration="3000">
+                            <div class="card" data-aos="slide-up" data-aos-duration="1300">
                                 <img th:src="@{/images/transacciones.jpg}" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <a th:href="@{/VerMovimientos}"
+                                    <a sec:authorize="hasRole('ADMIN')" th:href="@{/VerMovimientos}"
                                         class="card-title btn btn-outline-dark text-center w-100 fw-light">
+                                        Transacciones
+                                        <i class="fs-5 bi bi-currency-exchange mr-3"></i>
+                                    </a>
+                                    <a sec:authorize="hasRole('USER')" th:href="@{/VerMovimientos/MiEmpresa/}"
+                                       class="card-title btn btn-outline-dark text-center w-100 fw-light">
                                         Transacciones
                                         <i class="fs-5 bi bi-currency-exchange mr-3"></i>
                                     </a>
@@ -123,25 +130,25 @@
                             </div>
                         </div>
                         <div class="col pt-5" sec:authorize="hasRole('USER')">
-                            <div class="card" data-aos="slide-up" data-aos-duration="3000">
+                            <div class="card" data-aos="slide-up" data-aos-duration="1250">
                                 <img th:src="@{/images/transaccion1.jpg}" class="card-img-top" alt="trans1">
                                 <div class="card-body">
                                     <a th:href="@{/AgregarMovimiento}"
                                        class="card-title btn btn-outline-dark text-center w-100 fw-light">
                                         Agregar una nueva transacción
-                                        <i class="bi bi-plus-circle-fill"></i>
+                                        <i class="fs-5 bi bi-plus-circle-fill mr-3"></i>
                                     </a>
                                 </div>
                             </div>
                         </div>
                         <div class="col pt-5" sec:authorize="hasRole('USER')">
-                            <div class="card" data-aos="slide-up" data-aos-duration="3000">
+                            <div class="card" data-aos="slide-up" data-aos-duration="1200">
                                 <img th:src="@{/images/transaccion2.jpg}" class="card-img-top" alt="trans2">
                                 <div class="card-body">
-                                    <a th:href="@{/#}"
+                                    <a th:href="@{/VerMovimientos/MisMovimientos/}"
                                        class="card-title btn btn-outline-dark text-center w-100 fw-light">
                                         Mis Movimientos
-                                        <i class="bi bi-eye-fill"></i>
+                                        <i class="fs-5 bi bi-eye-fill mr-3"></i>
                                     </a>
                                 </div>
                             </div>
@@ -158,7 +165,7 @@
     <script>
         AOS.init({
             easing: 'ease-out-back',
-            duration: 2500
+            duration: 1500
         });
     </script>
 </body>

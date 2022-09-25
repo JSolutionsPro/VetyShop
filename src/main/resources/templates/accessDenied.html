@@ -12,13 +12,19 @@
 <!-- partial:index.partial.html -->
 <div class="lock"></div>
 <div class="message">
+  <div class="pt-3">
   <h1>El acceso a esta pagina está restringido</h1>
   <p style="text-align: center">Por favor revisa los permisos con el administrador.</p>
-  <div class="text-center">
-    <a th:href="@{/Inicio}" class="btn btn-outline-primary" style="text-align: center">Volver</a>
+  </div>
+    <div class="row text-center">
+    <div class="col pt-3">
+    <a th:href="@{/Inicio}" class="btn btn-outline-primary btn-lg" style="text-align: center">Volver</a>
+    </div>
+    <div class="col pt-3">
     <form th:action="@{/logout}" method="post">
-      <input type="submit" value="Salir" class="btn btn-outline-primary" style="text-align: center">
+      <input type="submit" value="Salir" class="btn btn-outline-dark btn-lg" style="text-align: center">
     </form>
+    </div>
   </div>
 
 </div>

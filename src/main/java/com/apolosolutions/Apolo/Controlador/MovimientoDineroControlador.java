@@ -3,6 +3,7 @@ package com.apolosolutions.Apolo.Controlador;
 import com.apolosolutions.Apolo.Modelos.Empresa;
 import com.apolosolutions.Apolo.Modelos.MovimientoDinero;
 import com.apolosolutions.Apolo.Modelos.Usuario;
+import com.apolosolutions.Apolo.Modelos.enums.RolEmpleado;
 import com.apolosolutions.Apolo.Repositorios.MovimientoDineroRepositorio;
 import com.apolosolutions.Apolo.Servicios.EmpresaServicios;
 import com.apolosolutions.Apolo.Servicios.MovimientoDineroServicios;
@@ -70,6 +71,25 @@ public class MovimientoDineroControlador {
 
         return lista;
     }
+    public String redirectTo="";
+    public String getRedirectTo() {return redirectTo;}
+    public void setRedirectTo(String redirectTo) { this.redirectTo = redirectTo;}
+
+
+    public void validarRedirect(String redirect){
+    switch(infoSesion().getRol()) {
+        case ROLE_ADMIN:
+            if (redirect=="") {
+                redirectTo="/Inicio";
+            }
+        case ROLE_USER:
+            if (redirect=="/VerMovimientos"|| redirect=="") {
+                redirectTo="/Inicio";
+            }
+        default:
+            break;
+    }}
+
 
 
     @GetMapping(path = "/VerMovimientos")
@@ -85,6 +105,7 @@ public class MovimientoDineroControlador {
         model.addAttribute("paginas",new int[paginaMovimientos.getTotalPages()]);
         model.addAttribute("paginaActual", NumeroPagina);
         model.addAttribute("mensaje",mensaje);
+        setRedirectTo("/VerMovimientos");
         return "verMovimientos";
     }
 
@@ -101,6 +122,7 @@ public class MovimientoDineroControlador {
         model.addAttribute("paginas", new int[paginaMovimientos.getTotalPages()]);
         model.addAttribute("paginaActual", NumeroPagina);
         model.addAttribute("mensaje",mensaje);
+        setRedirectTo("/VerMovimientos/MiEmpresa/");
         return "verMovimientos";
     }
 
@@ -117,6 +139,7 @@ public class MovimientoDineroControlador {
         model.addAttribute("paginas", new int[paginaMovimientos.getTotalPages()]);
         model.addAttribute("paginaActual", NumeroPagina);
         model.addAttribute("mensaje",mensaje);
+        setRedirectTo("/VerMovimientos/MisMovimientos/");
         return "verMovimientos";
     }
 
@@ -135,7 +158,9 @@ public class MovimientoDineroControlador {
     public String guardarMovimiento(MovimientoDinero movimiento, RedirectAttributes redirectAttributes) {
          if(movimientoDineroServicios.guardarActualizarMovimiento(movimiento)){
              redirectAttributes.addFlashAttribute("mensaje","saveOK");
-             return "redirect:/VerMovimientos";
+            //return validarRedirect("redirect:/VerMovimientos","redirect:/VerMovimientos/MiEmpresa/");
+             validarRedirect(redirectTo);
+             return "redirect:" + getRedirectTo();
          }
         redirectAttributes.addFlashAttribute("mensaje","saveError");
         return "redirect:/AgregarMovimiento";
@@ -157,7 +182,8 @@ public class MovimientoDineroControlador {
     public String actualizarMovimiento(@ModelAttribute ("movimiento") MovimientoDinero movimiento, RedirectAttributes redirectAttributes){
         if(movimientoDineroServicios.guardarActualizarMovimiento(movimiento)){
             redirectAttributes.addFlashAttribute("mensaje","updateOK");
-            return "redirect:/VerMovimientos";
+            //return validarRedirect("redirect:/VerMovimientos","redirect:/VerMovimientos/MiEmpresa/");
+            return "redirect:" + getRedirectTo();
         }
         redirectAttributes.addFlashAttribute("mensaje","updateError");
         return "redirect:/EditarMovimiento/"+movimiento.getId();
@@ -167,10 +193,10 @@ public class MovimientoDineroControlador {
     public String eliminarMovimiento (@PathVariable ("id") Integer id, RedirectAttributes redirectAttributes){
         if (movimientoDineroServicios.eliminarMovimiento(id)){
             redirectAttributes.addFlashAttribute("mensaje", "deleteOK");
-            return "redirect:/VerMovimientos";
+            return "redirect:" + getRedirectTo();
         }
             redirectAttributes.addFlashAttribute("memsaje", "deleteError");
-            return "redirect:/VerMovimientos";
+            return "redirect:" + getRedirectTo();
     }
 
     /*@GetMapping(path = "/usuarios/{id}/movimientos") //ID del usuario

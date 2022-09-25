@@ -33,15 +33,15 @@
                             </a>
                         </li>
                         <li class="nav-item w-100" >
-                            <a th:href="@{/VerUsuarios}"class="nav-link align-middle text-white px-3 active">
-                                <i class="fs-4 bi bi-people mr-3"></i> <span
-                                    class="ms-1 d-none d-sm-inline">Usuarios</span></a>
-                        </li>
-                        <li class="nav-item w-100" >
                             <a th:href="@{/VerEmpresas}" class="nav-link align-middle text-white px-3 ">
                                 <i class="fs-4 bi bi-building mr-3"></i><span class="ms-1 d-none d-sm-inline">
                                     Empresas</span>
                             </a>
+                        </li>
+                        <li class="nav-item w-100" >
+                            <a th:href="@{/VerUsuarios}"class="nav-link align-middle text-white px-3 active">
+                                <i class="fs-4 bi bi-people mr-3"></i> <span
+                                    class="ms-1 d-none d-sm-inline">Usuarios</span></a>
                         </li>
                         <li class="nav-item w-100" >
                             <a th:href="@{/VerMovimientos}" class="nav-link align-middle text-white px-3">
@@ -152,27 +152,6 @@
             </div>
         </div>
     </div>
-    <!-- Campo para contrasena
-    </div>
-    </div>
-    <div class="col">
-        <label class="pt-3 fw-light form-label"><i class="bi bi-at"></i> Contrasena del usuario</label>
-        <input th:field="*{contrasena}" type="password" name="contrasena" required class="fw-light form-control w-100" id="contrasena"
-               aria-describedby="emailHelp" placeholder="Ejemplo: ejemplo@gmail.com">
-    </div>
-    </div>
-    Campo para estado
-    <div class="row">
-        <div class="col">
-            <label class="pt-3 fw-light form-label"><i
-                    class="bi bi-people"></i> Estado actual del empleado </label>
-            <select th:field="*{estado}" class="fw-light form-select w-100" id="estado" required="required">
-                <option th:value=1>Activo</option>
-                <option th:value=0>Inactivo</option>
-            </select>
-        </div>
--->
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
         crossorigin="anonymous"></script>
@@ -180,7 +159,7 @@
     <script>
         AOS.init({
             easing: 'ease-out-back',
-            duration: 2500
+            duration: 1500
         });
     </script>
     <script th:inline="javascript">

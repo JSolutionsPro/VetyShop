@@ -65,14 +65,4 @@ public class MovimientoDineroServicios {
         public Page<MovimientoDinero> consultarMovimientosDeUsuariosPorEmpresa(Integer id, Pageable pageable){
                 return movimientoDineroRepositorio.findMovimientosOfUsuariosByEmpresa(id, pageable);
         }
-
-        public Long obtenerSumaMovimientos(){
-                return movimientoDineroRepositorio.SumarMovimientos();
-        }
-        public Long obtenerIngresosMovimientos(){
-                return movimientoDineroRepositorio.SumarIngresosMovimientos();
-        }
-        public Long obtenerEgresosMovimientos(){
-                return movimientoDineroRepositorio.SumarEgresosMovimientos();
-        }
 }

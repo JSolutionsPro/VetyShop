@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="">
 
 <head>
     <meta charset="utf-8">
@@ -36,24 +37,26 @@
                         </li>
                         <div sec:authorize="hasRole('ADMIN')">
                             <li class="nav-item w-100">
-                                <a th:href="@{/VerUsuarios}" class="nav-link align-middle text-white px-3 ">
-                                    <i class="fs-4 bi bi-people mr-3"></i> <span
-                                        class="ms-1 d-none d-sm-inline">Usuarios</span></a>
-                            </li>
-                        </div>
-                        <div sec:authorize="hasRole('ADMIN')">
-                            <li class="nav-item w-100">
                                 <a th:href="@{/VerEmpresas}"class="nav-link align-middle text-white px-3 ">
                                     <i class="fs-4 bi bi-building mr-3"></i><span class="ms-1 d-none d-sm-inline">
                                         Empresas</span>
                                 </a>
                             </li>
                         </div>
+                        <div sec:authorize="hasRole('ADMIN')">
+                            <li class="nav-item w-100">
+                                <a th:href="@{/VerUsuarios}" class="nav-link align-middle text-white px-3 ">
+                                    <i class="fs-4 bi bi-people mr-3"></i> <span
+                                        class="ms-1 d-none d-sm-inline">Usuarios</span></a>
+                            </li>
+                        </div>
                         <li class="nav-item w-100">
-                            <a th:href="@{/VerMovimientos}" class="nav-link align-middle text-white px-3 active">
+                            <a sec:authorize="hasRole('ADMIN')" th:href="@{/VerMovimientos}" class="nav-link align-middle text-white px-3 active">
                                 <i class="fs-4 bi bi-currency-exchange mr-3"></i><span class="ms-1 d-none d-sm-inline">
-                                    Transacciones</span>
-                            </a>
+                                    Transacciones</span></a>
+                                <a sec:authorize="hasRole('USER')" th:href="@{/VerMovimientos/MiEmpresa/}" class="nav-link align-middle text-white px-3 active">
+                                    <i class="fs-4 bi bi-currency-exchange mr-3"></i><span class="ms-1 d-none d-sm-inline">
+                                    Transacciones</span></a>
                         </li>
                         <li class="nav-item w-100">
                             <a href="#" class="nav-link align-middle text-white px-3">
@@ -107,7 +110,7 @@
                         </div>
 
                         <p class="pt-2 text-muted fst-italic">A continuación encontrará información sobre las transacciones registradas y podrá actualizar o eliminar haciendo clic sobre los iconos</p>
-                        <table class="table table-hover">
+                        <table class="table table-hover" >
                             <thead>
                               <tr>
                                 <th scope="col">#</th>
@@ -119,11 +122,11 @@
                                 <th scope="col">Acciones</th>
                               </tr>
                             </thead>
-                            <tbody>
+                            <tbody data-aos="fade-in">
                               <tr th:each="movimiento : ${movlist}">
                                 <th scope="row" th:text="${movimiento.id}"></th>
                                 <td th:text="${movimiento.concepto}" style="" width="200px"></td>
-                                  <td th:text="${#numbers.formatCurrency(movimiento.monto)}"></td>
+                                  <td th:text="${#numbers.formatDecimal(movimiento.monto, 0, 'POINT', 0, 'COMMA')}"></td>
                                   <td th:text="${movimiento.usuario.nombre}"></td>
                                   <td th:text="${movimiento.empresa.nombre}"></td>
                                   <td th:text="${#temporals.format(movimiento.fechaMovimiento, 'dd/MM/yyyy')}"></td>
@@ -142,19 +145,19 @@
                             <div class="col">
                                 <label class="col fw-bold" for="sumaMontos">Total de Transacciones</label>
                                 <div class="col">
-                                    <p th:text="${#strings.replace(#numbers.formatCurrency(totales.get(0)), ',00', '')}" class="form-control text-center m-auto" style="text-align: center; border:none;" id="sumaMontos"></p>
+                                    <p th:text="${#numbers.formatDecimal(totales.get(0), 0, 'POINT', 0, 'COMMA')}" class="form-control text-center m-auto" style="text-align: center; border:none;" id="sumaMontos"></p>
                                 </div>
                             </div>
                             <div class="col">
                                 <label class="col fw-bold text-success" for="ingresoMontos">Total de Ingresos</label>
                                 <div class="col">
-                                    <p th:text="${#strings.replace(#numbers.formatCurrency(totales.get(1)), ',00', '')}" class="form-control text-center m-auto" style="text-align: center; border:none;" id="ingresoMontos"></p>
+                                    <p th:text="${#numbers.formatDecimal(totales.get(1), 0, 'POINT', 0, 'COMMA')}" class="form-control text-center m-auto" style="text-align: center; border:none;" id="ingresoMontos"></p>
                                 </div>
                             </div>
                             <div class="col">
                                 <label class="col fw-bold text-danger" for="egresoMontos">Total de Egresos</label>
                                 <div class="col">
-                                    <p th:text="${#strings.replace(#numbers.formatCurrency(totales.get(2)), ',00', '')}" class="form-control text-center m-auto" style="text-align: center; border:none;" id="egresoMontos"></p>
+                                    <p th:text="${#numbers.formatDecimal(totales.get(2), 0, 'POINT', 0, 'COMMA')}" class="form-control text-center m-auto" style="text-align: center; border:none;" id="egresoMontos"></p>
                                 </div>
                             </div>
                 </div>
@@ -163,27 +166,27 @@
                             <nav>
                                 <ul class="pagination mt-4 justify-content-center">
                                     <li th:class="${paginaActual eq 0} ? 'page-item disabled' : 'page-item'">
-                                        <a th:href="@{/VerMovimientos/(pagina=0)}" class="page-link" aria-label="Primera pagina">
+                                        <a th:href="@{''(pagina=0)}" class="page-link" aria-label="Primera pagina">
                                             <i class="bi bi-chevron-double-left"></i>
                                         </a>
                                     </li>
                                     <li th:class="${paginaActual eq 0} ? 'page-item disabled' : 'page-item'">
-                                        <a th:href="@{/VerMovimientos/(pagina=${paginaActual-1})}" class="page-link" aria-label="Anterior">
+                                        <a th:href="@{''(pagina=${paginaActual-1})}" class="page-link" aria-label="Anterior">
                                             <i class="bi bi-chevron-left"></i>
                                         </a>
                                     </li>
                                     <li th:class="${paginaActual==estado.index} ? 'page-item active' : 'page-item'"
                                         th:each="pagina, estado: ${paginas}" class="page-item">
-                                        <a th:href="@{/VerMovimientos/(pagina=${estado.index})}" class="page-link"
+                                        <a th:href="@{''(pagina=${estado.index})}" class="page-link"
                                            th:text="${estado.index}+1" aria-label="Anterior"></a>
                                     </li>
                                     <li th:class="${paginaActual lt paginas.length-1} ? 'page-item' : 'page-item disabled'">
-                                        <a class="page-link" th:href="@{/VerMovimientos/(pagina=${paginaActual+1})}" aria-label="Siguiente">
+                                        <a class="page-link" th:href="@{''(pagina=${paginaActual+1})}" aria-label="Siguiente">
                                             <i class="bi bi-chevron-right"></i>
                                         </a>
                                     </li>
                                     <li th:class="${paginaActual lt paginas.length-1} ? 'page-item' : 'page-item disabled'">
-                                        <a class="page-link" th:href="@{/VerMovimientos/(pagina=${paginas.length-1})}" aria-label="Ultima pagina">
+                                        <a class="page-link" th:href="@{''(pagina=${paginas.length-1})}" aria-label="Ultima pagina">
                                             <i class="bi bi-chevron-double-right"></i>
                                         </a>
                                     </li>
@@ -208,7 +211,7 @@
     </script>
             <script th:inline="javascript">
     window.onload=function(){
-
+        localStorage.setItem("url", window.document.location.pathname);
         var msg= [[${mensaje}]];
         if (msg == "saveOK"){
             swal({

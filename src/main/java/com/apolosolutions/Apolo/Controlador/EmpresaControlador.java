@@ -42,7 +42,7 @@ public class EmpresaControlador {
     @GetMapping({"/VerEmpresas"})
 
     public String viewEmpresas( @RequestParam(value="pagina", required=false, defaultValue = "0") int NumeroPagina,
-                                @RequestParam(value="medida", required=false, defaultValue = "4") int medida,
+                                @RequestParam(value="medida", required=false, defaultValue = "8") int medida,
                                 Model model,@ModelAttribute("mensaje") String mensaje){
     Page<Empresa> paginaEmpresas= empresaRepositorio.findAll(PageRequest.of(NumeroPagina,medida));
         model.addAttribute("emplist",paginaEmpresas.getContent());

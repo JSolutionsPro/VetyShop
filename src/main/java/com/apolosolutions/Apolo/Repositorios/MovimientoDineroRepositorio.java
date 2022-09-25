@@ -21,17 +21,4 @@ public interface MovimientoDineroRepositorio extends JpaRepository<MovimientoDin
 
     @Query(value ="SELECT * FROM transacciones WHERE empresa_id= ?1", nativeQuery = true)
     public abstract ArrayList<MovimientoDinero> findByEmpresa(Integer id);
-
-    //Metodo para ver la suma de TODOS LOS MOVIMIENTOS
-    @Query(value="SELECT SUM(monto) FROM transacciones", nativeQuery = true)
-    public abstract Long SumarMovimientos();
-
-    //Metodo para ver la suma de TODOS LOS EGRESOS DE MOVIMIENTOS
-    @Query(value="SELECT SUM(monto) FROM transacciones WHERE monto <0", nativeQuery = true)
-    public abstract Long SumarEgresosMovimientos();
-
-    //Metodo para ver la suma de TODOS LOS INGRESOS DE MOVIMIENTOS
-    @Query(value="SELECT SUM(monto) FROM transacciones WHERE monto >0", nativeQuery = true)
-    public abstract Long SumarIngresosMovimientos();
-
 }
