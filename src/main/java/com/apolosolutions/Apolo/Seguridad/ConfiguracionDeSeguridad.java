@@ -1,6 +1,6 @@
 package com.apolosolutions.Apolo.Seguridad;
 
-import com.apolosolutions.Apolo.conductor.CustomSuccessHandler;
+import com.apolosolutions.Apolo.Handler.CustomSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -28,6 +28,7 @@ public class ConfiguracionDeSeguridad extends WebSecurityConfigurerAdapter {
                 .usersByUsernameQuery("select correo, contrasena, estado from usuario where correo=?")
                 .authoritiesByUsernameQuery("select correo, rol from usuario where correo=?");
     }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/").permitAll();
@@ -40,7 +41,8 @@ public class ConfiguracionDeSeguridad extends WebSecurityConfigurerAdapter {
                 .antMatchers("/AgregarUsuario").hasRole("ADMIN")
                 .antMatchers("/EditarUsuario/**").hasRole("ADMIN")
                 .antMatchers("/EliminarUsuario/**").hasRole("ADMIN")
-                .antMatchers("/VerMovimientos").hasAnyRole("ADMIN")
+                .antMatchers("/VerMovimientos").hasRole("ADMIN")
+                .antMatchers("/VerMovimiento").hasRole("ADMIN")
                 .antMatchers("/VerMovimientos/MiEmpresa/").hasAnyRole("ADMIN","USER")
                 .antMatchers("/VerMovimientos/MisMovimientos/").hasAnyRole("ADMIN","USER")
                 .antMatchers("/AgregarMovimiento/**").hasAnyRole("ADMIN","USER")

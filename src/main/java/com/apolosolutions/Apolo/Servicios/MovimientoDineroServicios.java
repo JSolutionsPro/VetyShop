@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 @Service
 public class MovimientoDineroServicios {
+
         @Autowired
         MovimientoDineroRepositorio movimientoDineroRepositorio;
         @Autowired
@@ -41,10 +42,10 @@ public class MovimientoDineroServicios {
         }
 
         public Page<MovimientoDinero> consultarPorUsuario(Integer id, Pageable pageable) {
-                return movimientoDineroRepositorio.findByUsuario(id, pageable);
+                return movimientoDineroRepositorio.findByUsuario_id(id, pageable);
         }
         public ArrayList<MovimientoDinero> consultarPorEmpresa(Integer id){
-                return movimientoDineroRepositorio.findByEmpresa(id);
+                return movimientoDineroRepositorio.findByEmpresa_id(id);
         }
 
         public List<MovimientoDinero> guardarActualizarMovimientos(List<MovimientoDinero> movimientoDinero){
@@ -55,7 +56,7 @@ public class MovimientoDineroServicios {
         public boolean eliminarMovimientos(Integer id, List<MovimientoDinero> movimientoList){
                 movimientoDineroRepositorio.deleteAll(movimientoList);
                 if(empresaRepositorio.findById(id).isPresent()) {
-                        if (this.movimientoDineroRepositorio.findByEmpresa(id).isEmpty()) {
+                        if (this.movimientoDineroRepositorio.findByEmpresa_id(id).isEmpty()) {
                                 return true;
                         }
                 }
