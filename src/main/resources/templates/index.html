@@ -1,5 +1,5 @@
 <!DOCTYPE html >
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -23,7 +23,7 @@
 <!-- Navbar  -->
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark p-md-3" style="">
         <div class="container" data-aos="fade-in">
-            <h1><a class="navbar-brand fw-light" th:href="@{/}"><i class="bi bi-grid"></i> APOLO SOLUTIONS</a></h1>
+            <h1><a class="navbar-brand fw-light" th:href="@{/}"><i class="bi bi-columns-gap"></i> APOLO SOLUTIONS</a></h1>
             <button
                     class="navbar-toggler"
                     type="button"
@@ -55,7 +55,7 @@
         <div class="content text-center" data-aos="fade-in">
             <h1 class="text-white fw-light">APOLO SOLUTIONS</h1>
             <p class="text-white">Software hecho a tu medida</p>
-            <a class="text-dark btn btn-light bg-light shadow-lg" th:href="@{/login}">Iniciar Sesión</a>
+            <a class="text-dark btn btn-light bg-light shadow-lg" sec:authorize="isAuthenticated()" th:href="@{/Inicio}">Ingresar a la aplicación</a>
         </div>
     </div>
 

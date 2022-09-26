@@ -3,6 +3,8 @@ package com.apolosolutions.Apolo.Servicios;
 import com.apolosolutions.Apolo.Modelos.Usuario;
 import com.apolosolutions.Apolo.Repositorios.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -45,12 +47,12 @@ public class UsuarioServicios {
     }
 
     //Metodo para buscar los usuarios por Empresa
-    public ArrayList<Usuario> obtenerPorEmpresa(Integer id){
-        return usuarioRepositorio.findByEmpresa(id);
+    public Page<Usuario> obtenerPorEmpresa(Integer id, Pageable pageable){
+        return usuarioRepositorio.findByEmpresa_id(id, pageable);
     }
 
     //Metodo para buscar la info de usuario por su correo
     public Usuario movimientoPorCorreo(String Correo){
-        return usuarioRepositorio.usuarioPorCorreo(Correo);
+        return usuarioRepositorio.findByCorreo(Correo);
     }
 }

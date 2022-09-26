@@ -20,7 +20,7 @@
                     <a href="#"
                         class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none mt-4 text-center">
                         <span class="fs-4 d-none d-sm-inline">
-                            <i class="bi bi-grid"></i>
+                            <i class="bi bi-columns-gap"></i>
                             Apolo Solutions
                         </span>
                     </a>
@@ -63,13 +63,13 @@
                 <div class="ml-5 pl-5 fw-light text-end">
                     <div class="dropdown ">
                         <a class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30"
+                            <img src="https://cdn-icons-png.flaticon.com/512/4195/4195922.png" alt="avatar" width="30" height="30"
                                  class="rounded-circle">
                             Bienvenido [[${#httpServletRequest.getUserPrincipal().getName()}]]
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-light">
-                            <li><a class="dropdown-item active" >Mi Perfil</a></li>
-                            <li><a class="dropdown-item" >Actualizar Datos</a></li>
+                        <ul class="dropdown-menu dropdown-menu-light dropdown-menu-end">
+                            <li><a class="dropdown-item disabled" >Mi Perfil</a></li>
+                            <li><a class="dropdown-item disabled" >Actualizar Datos</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -83,7 +83,7 @@
 
                 <div class="py-4 mt-5 container" data-aos="fade-up">
                     <form th:action="@{/GuardarUsuario}" th:object="${us}" method="POST" class="py-4 px-5 mx-5 shadow-lg ">
-                        <h1 class="fw-light"> <a th:href="@{/VerUsuarios}" class="btn btn-outline-dark"><i
+                        <h1 class="fw-light"> <a href="javascript: history.go(-1)" class="btn btn-outline-dark"><i
                                     class="bi bi-arrow-left"></i></a> Crear un usuario nuevo </h1>
                         <p class="pt-3 text-muted fst-italic">Por favor ingrese los siguientes datos, recuerde que todos
                             son obligatorios.</p>

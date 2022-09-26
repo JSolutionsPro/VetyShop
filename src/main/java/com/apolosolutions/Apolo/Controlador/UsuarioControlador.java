@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -30,14 +32,45 @@ public class UsuarioControlador {
 
     @Autowired
     UsuarioRepositorio usuarioRepositorio;
+
+    public String redirectTo="";
+    public String getRedirectTo() {return redirectTo;}
+    public void setRedirectTo(String redirectTo) { this.redirectTo = redirectTo;}
+
+
+    public void validarRedirect(String redirect){
+        switch(getRedirectTo()) {
+            case "":
+                    redirectTo="/Inicio";
+            default:
+                break;
+        }}
+
     @GetMapping(path = "/VerUsuarios") //ver todos los usuarios
     public String viewEmpleados(@RequestParam(value="pagina", required=false, defaultValue = "0") int NumeroPagina,
                                 @RequestParam(value="medida", required=false, defaultValue = "8") int medida,Model model, @ModelAttribute("mensaje") String mensaje){
-            Page<Usuario> paginaUsuario= usuarioRepositorio.findAll(PageRequest.of(NumeroPagina,medida));
+            Page<Usuario> paginaUsuario= usuarioRepositorio.findAll(PageRequest.of(NumeroPagina,medida, Sort.by("id").ascending()));
         model.addAttribute("userlist",paginaUsuario.getContent());
         model.addAttribute("paginas",new int[paginaUsuario.getTotalPages()]);
         model.addAttribute("paginaActual", NumeroPagina);
         model.addAttribute("mensaje", mensaje);
+        setRedirectTo("/VerUsuarios");
+        return "verUsuarios";
+    }
+
+    @GetMapping("/VerUsuarios/Empresa/{id}") //Consultar por ID empresa
+    public String UsuarioPorEmpresa(@RequestParam(value="pagina", required=false, defaultValue = "0") int NumeroPagina,
+                                                @RequestParam(value="medida", required=false, defaultValue = "8") int medida,
+                                                Model model,
+                                                @ModelAttribute("mensaje") String mensaje,
+                                                @PathVariable("id") Integer id){
+        Pageable paginado = PageRequest.of(NumeroPagina,medida, Sort.by("id").ascending());
+        Page<Usuario> paginaUsuario= usuarioServicios.obtenerPorEmpresa(id, paginado);
+        model.addAttribute("userlist",paginaUsuario.getContent());
+        model.addAttribute("paginas",new int[paginaUsuario.getTotalPages()]);
+        model.addAttribute("paginaActual", NumeroPagina);
+        model.addAttribute("mensaje", mensaje);
+        setRedirectTo("/VerUsuarios/Empresa/"+id);
         return "verUsuarios";
     }
 
@@ -52,20 +85,19 @@ public class UsuarioControlador {
     }
 
     @PostMapping("/GuardarUsuario")
-
     public String guardarusuario(Usuario usuario, RedirectAttributes redirectAttributes){
         String contrasenaEncriptada=codificador().encode(usuario.getContrasena());
         usuario.setContrasena(contrasenaEncriptada);
         if(usuarioServicios.guardarActualizarUsuario(usuario)){
             redirectAttributes.addFlashAttribute("mensaje","saveOK");
-            return "redirect:/VerUsuarios";
+            validarRedirect(redirectTo);
+            return "redirect:" + getRedirectTo();
         }
         redirectAttributes.addFlashAttribute("mensaje","saveError");
         return "redirect:/GuardarUsuario";
     }
 
     @GetMapping("/EditarUsuario/{id}")
-
     public String editarUsuario(Model model, @PathVariable Integer id, @ModelAttribute("mensaje") String mensaje){
         Usuario usuario=usuarioServicios.consultarUsuario(id);
         model.addAttribute("usuario", usuario);
@@ -76,7 +108,6 @@ public class UsuarioControlador {
     }
 
     @PostMapping("/ActualizarUsuario")
-
     public String actualizarUsuario(@ModelAttribute("usuario") Usuario usuario, RedirectAttributes redirectAttributes){
         Integer id= usuario.getId();
         String RegistroAntiguo=usuarioServicios.consultarUsuario(id).getContrasena();
@@ -86,7 +117,8 @@ public class UsuarioControlador {
         }
         if(usuarioServicios.guardarActualizarUsuario(usuario)){
             redirectAttributes.addFlashAttribute("mensaje","updateOK");
-            return "redirect:/VerUsuarios";
+            validarRedirect(redirectTo);
+            return "redirect:" + getRedirectTo();
         }
         redirectAttributes.addFlashAttribute("mensaje", "updateError");
         return "redirect:/ActualizarUsuario/";
@@ -96,10 +128,11 @@ public class UsuarioControlador {
     public String eliminarUsuario(@PathVariable Integer id, RedirectAttributes redirectAttributes){
         if (usuarioServicios.eliminarUsuario(id)){
             redirectAttributes.addFlashAttribute("mensaje","deleteOK");
-            return "redirect:/VerUsuarios";
+            validarRedirect(redirectTo);
+            return "redirect:" + getRedirectTo();
         }
         redirectAttributes.addFlashAttribute("mensaje","deleteError");
-        return "redirect:/VerUsuarios";
+        return "redirect:" + getRedirectTo();
     }
 
     @RequestMapping(value="/Denegado")
@@ -107,92 +140,9 @@ public class UsuarioControlador {
         return "accessDenied";
     }
 
-    //Encriptacion
-    @Bean
+    @Bean //Encriptación
     public PasswordEncoder codificador(){
         return new BCryptPasswordEncoder();
     }
-
-
-
-
-
-
-    /*@GetMapping("/usuarios/{id}") //Consultar por ID
-    public Usuario usuarioPorId(@PathVariable("id") Integer id){
-        return usuarioServicios.consultarUsuario(id);
-    }
-
-    @PatchMapping("usuarios/{id}") //Actualizar usuarios
-    public Usuario actualizarUsuario(@PathVariable("id") Integer id, @RequestBody Usuario usuario){
-        Usuario usuario1=usuarioServicios.consultarUsuario(id);
-        usuario1.setNombre(usuario.getNombre());
-        usuario1.setCorreo(usuario.getCorreo());
-        usuario1.setEmpresa(usuario.getEmpresa());
-        usuario1.setMovimientos(usuario.getMovimientos());
-        usuario1.setRol(usuario.getRol());
-        return usuarioServicios.guardarActualizarUsuario(usuario1);
-    }
-
-    @DeleteMapping("/usuarios/{id}") //Eliminar usuarios
-    public String eliminarUsuario(@PathVariable("id") Integer id){
-        boolean respuesta=usuarioServicios.eliminarUsuario(id);
-        if(respuesta){
-            return "Se ha eliminado correctamente el usuario con id "+id;
-        }
-        return "No se logro eliminar usuario con id "+id;
-    }
-    @GetMapping("/empresas/{id}/usuarios") //Consultar por ID empresa
-    public ArrayList<Usuario> UsuarioPorEmpresa(@PathVariable("id") Integer id){
-        return usuarioServicios.obtenerPorEmpresa(id);
-    }
-
-
-
-
-
-
-
-
-
-
-    /*@GetMapping(path = "/usuarios") //ver todos los usuarios
-    public List<Usuario> verUsuario(){
-        return usuarioServicios.ListarUsuarios();
-    }
-
-    @PostMapping("/usuarios") //guardar nuevo usuario
-    public Usuario guardarActualizarUsuario(@RequestBody Usuario usuario) {
-        return usuarioServicios.guardarActualizarUsuario(usuario);
-    }
-
-    @GetMapping("/usuarios/{id}") //Consultar por ID
-    public Usuario usuarioPorId(@PathVariable("id") Integer id){
-        return usuarioServicios.consultarUsuario(id);
-    }
-
-    @PatchMapping("/usuarios/{id}") //Actualizar usuarios
-    public Usuario actualizarUsuario(@PathVariable("id") Integer id, @RequestBody Usuario usuario){
-        Usuario usuario1=usuarioServicios.consultarUsuario(id);
-        usuario1.setNombre(usuario.getNombre());
-        usuario1.setCorreo(usuario.getCorreo());
-        usuario1.setEmpresa(usuario.getEmpresa());
-        usuario1.setMovimientos(usuario.getMovimientos());
-        usuario1.setRol(usuario.getRol());
-        return usuarioServicios.guardarActualizarUsuario(usuario1);
-    }
-
-    @DeleteMapping("/usuarios/{id}") //Eliminar usuarios
-    public String eliminarUsuario(@PathVariable("id") Integer id){
-        boolean respuesta=usuarioServicios.eliminarUsuario(id);
-        if(respuesta){
-            return "Se ha eliminado correctamente el usuario con id "+id;
-        }
-        return "No se logro eliminar usuario con id "+id;
-    }
-    @GetMapping("/empresas/{id}/usuarios") //Consultar por ID empresa
-    public ArrayList<Usuario> UsuarioPorEmpresa(@PathVariable("id") Integer id){
-        return usuarioServicios.obtenerPorEmpresa(id);
-    }*/
 
 }

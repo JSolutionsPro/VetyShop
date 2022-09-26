@@ -71,6 +71,8 @@ public class MovimientoDineroControlador {
 
         return lista;
     }
+
+    //Metodos para redireccionar a la vista adecuada
     public String redirectTo="";
     public String getRedirectTo() {return redirectTo;}
     public void setRedirectTo(String redirectTo) { this.redirectTo = redirectTo;}
@@ -78,13 +80,15 @@ public class MovimientoDineroControlador {
 
     public void validarRedirect(String redirect){
     switch(infoSesion().getRol()) {
-        case ROLE_ADMIN:
-            if (redirect=="") {
-                redirectTo="/Inicio";
-            }
         case ROLE_USER:
             if (redirect=="/VerMovimientos"|| redirect=="") {
                 redirectTo="/Inicio";
+            }
+        case ROLE_ADMIN:
+            if (redirect=="") {
+                redirectTo="/Inicio";
+            } else if (redirect.contains("/VerMovimiento/Usuario/")) {
+                redirectTo="/VerMovimientos/MisMovimientos/";
             }
         default:
             break;
@@ -127,10 +131,10 @@ public class MovimientoDineroControlador {
     }
 
     @GetMapping(path = "/VerMovimientos/MisMovimientos/")
-    public String consultarMovimientosPorUsuario( @RequestParam(value="pagina", required=false, defaultValue = "0") int NumeroPagina,
-                                            @RequestParam(value="medida", required=false, defaultValue = "7") int medida,
-                                            Model model,
-                                            @ModelAttribute("mensaje") String mensaje){
+    public String consultarMovimientosPorUsuarioSesion( @RequestParam(value="pagina", required=false, defaultValue = "0") int NumeroPagina,
+                                                  @RequestParam(value="medida", required=false, defaultValue = "7") int medida,
+                                                  Model model,
+                                                  @ModelAttribute("mensaje") String mensaje){
         Pageable paginado = PageRequest.of(NumeroPagina,medida, Sort.by("id").ascending());
         Page<MovimientoDinero> paginaMovimientos= movimientoDineroServicios.consultarPorUsuario(infoSesion().getId(), paginado);
         List<Long> totalesMovimientos= totalMovimientos(movimientoDineroServicios.consultarPorUsuario(infoSesion().getId(), Pageable.unpaged()));
@@ -140,6 +144,24 @@ public class MovimientoDineroControlador {
         model.addAttribute("paginaActual", NumeroPagina);
         model.addAttribute("mensaje",mensaje);
         setRedirectTo("/VerMovimientos/MisMovimientos/");
+        return "verMovimientos";
+    }
+
+    @GetMapping(path = "/VerMovimiento/Usuario/{id}")
+    public String consultarMovimientosPorUsuario( @RequestParam(value="pagina", required=false, defaultValue = "0") int NumeroPagina,
+                                            @RequestParam(value="medida", required=false, defaultValue = "7") int medida,
+                                            Model model,
+                                            @ModelAttribute("mensaje") String mensaje,
+                                                  @PathVariable("id") Integer id){
+        Pageable paginado = PageRequest.of(NumeroPagina,medida, Sort.by("id").ascending());
+        Page<MovimientoDinero> paginaMovimientos= movimientoDineroServicios.consultarPorUsuario(id, paginado);
+        List<Long> totalesMovimientos= totalMovimientos(movimientoDineroServicios.consultarPorUsuario(id, Pageable.unpaged()));
+        model.addAttribute("movlist",paginaMovimientos.getContent());
+        model.addAttribute("totales",totalesMovimientos);
+        model.addAttribute("paginas", new int[paginaMovimientos.getTotalPages()]);
+        model.addAttribute("paginaActual", NumeroPagina);
+        model.addAttribute("mensaje",mensaje);
+        setRedirectTo("/VerMovimiento/Usuario/"+id);
         return "verMovimientos";
     }
 
@@ -159,7 +181,7 @@ public class MovimientoDineroControlador {
          if(movimientoDineroServicios.guardarActualizarMovimiento(movimiento)){
              redirectAttributes.addFlashAttribute("mensaje","saveOK");
             //return validarRedirect("redirect:/VerMovimientos","redirect:/VerMovimientos/MiEmpresa/");
-             validarRedirect(redirectTo);
+             validarRedirect(getRedirectTo());
              return "redirect:" + getRedirectTo();
          }
         redirectAttributes.addFlashAttribute("mensaje","saveError");
@@ -182,7 +204,10 @@ public class MovimientoDineroControlador {
     public String actualizarMovimiento(@ModelAttribute ("movimiento") MovimientoDinero movimiento, RedirectAttributes redirectAttributes){
         if(movimientoDineroServicios.guardarActualizarMovimiento(movimiento)){
             redirectAttributes.addFlashAttribute("mensaje","updateOK");
-            //return validarRedirect("redirect:/VerMovimientos","redirect:/VerMovimientos/MiEmpresa/");
+            if (!getRedirectTo().contains("/VerMovimiento/Usuario/")){
+                validarRedirect(getRedirectTo());
+                return "redirect:" + getRedirectTo();
+            }
             return "redirect:" + getRedirectTo();
         }
         redirectAttributes.addFlashAttribute("mensaje","updateError");
@@ -193,57 +218,16 @@ public class MovimientoDineroControlador {
     public String eliminarMovimiento (@PathVariable ("id") Integer id, RedirectAttributes redirectAttributes){
         if (movimientoDineroServicios.eliminarMovimiento(id)){
             redirectAttributes.addFlashAttribute("mensaje", "deleteOK");
+            validarRedirect(redirectTo);
             return "redirect:" + getRedirectTo();
         }
             redirectAttributes.addFlashAttribute("memsaje", "deleteError");
             return "redirect:" + getRedirectTo();
     }
 
-    /*@GetMapping(path = "/usuarios/{id}/movimientos") //ID del usuario
-    public List<MovimientoDinero> consultarMovimientosPorUsuario(@PathVariable("id") Integer id) {
-        return movimientoDineroServicios.consultarPorUsuario(id);
-    }
-
-    @GetMapping(path = "/empresas/usuarios/{id}/movimientos") //ID de la empresa
-    public List<MovimientoDinero> consultaMovimientosDeUsuariosPorEmpresa(@PathVariable ("id") Integer id){
-        return movimientoDineroServicios.consultarMovimientosDeUsuariosPorEmpresa(id);
-    }*/
-
-    @GetMapping(path = "/empresas/{id}/movimientos") //ID de la empresa
+    /*@GetMapping(path = "/empresas/{id}/movimientos") //ID de la empresa
     public List<MovimientoDinero> consultarMovimientosPorEmpresa(@PathVariable("id") Integer id) {
         return movimientoDineroServicios.consultarPorEmpresa(id);
-    }
+    }*/
 
-    @PostMapping(path = "/empresas/{id}/movimientos") //ID de la empresa
-    public List<MovimientoDinero> guardarMovimientos(@PathVariable("id") Integer id, @RequestBody List<MovimientoDinero> movimiento) {
-        List<MovimientoDinero> mov = movimiento;
-        for (int i = 0; i < mov.size(); i++) {
-            mov.get(i).setEmpresa_id(id);
-        }
-        return movimientoDineroServicios.guardarActualizarMovimientos(mov);
-    }
-
-    @PatchMapping(path = "/empresas/{id}/movimientos") //ID de la empresa
-    public List<MovimientoDinero> actualizarMovimientos(@PathVariable("id") Integer id, @RequestBody List<MovimientoDinero> movimientos){
-        List<MovimientoDinero> mov = movimientoDineroServicios.consultarPorEmpresa(id);
-        for (int i = 0; i < mov.size(); i++) {
-            mov.get(i).setConcepto(movimientos.get(i).getConcepto());
-            mov.get(i).setMonto(movimientos.get(i).getMonto());
-            mov.get(i).setUsuario(movimientos.get(i).getUsuario());
-            movimientoDineroServicios.guardarActualizarMovimiento(mov.get(i));
-        }
-        return mov;
-    }
-
-    @DeleteMapping(path = "/empresas/{id}/movimientos") //ID de la empresa
-    public String eliminarMovimientos(@PathVariable ("id") Integer id){
-        List<MovimientoDinero> movimientoList = movimientoDineroServicios.consultarPorEmpresa(id);
-        boolean respuesta = movimientoDineroServicios.eliminarMovimientos(id,movimientoList);
-        if (respuesta){
-            return "Si se eliminaron los movimientos de la empresa ID "+id;
-        }
-        else {
-            return "No se eliminaron los movimientos de la empresa ID "+id;
-        }
-    }
 }

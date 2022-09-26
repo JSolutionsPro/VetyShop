@@ -13,18 +13,18 @@ public class EmpresaServicios {
     @Autowired
     EmpresaRepositorio empresaRepositorio;
 
-    //metodo que retorna una lista de las empresas
+    //Metodo que retorna una lista de las empresas
     public List<Empresa> listaEmpresas (){
         List<Empresa> empresaList = new ArrayList<>();
         empresaRepositorio.findAll().forEach(empresa -> empresaList.add(empresa));
         return empresaList;
     }
-    //metodo que permite consultar empresa por id
+    //Metodo que permite consultar empresa por id
     public  Empresa consultarEmpresa(Integer id){
         return empresaRepositorio.findById(id).get();
     }
 
-    //metodo para guardar o actualizar empresa|
+    //Metodo para guardar o actualizar empresa|
     public Boolean  guardarActualizarEmpresa( Empresa empresa){
         Empresa empresa1 =empresaRepositorio.save(empresa);
         if (empresaRepositorio.findById(empresa1.getId()) != null) {
@@ -32,7 +32,7 @@ public class EmpresaServicios {
         }
         return false;
     }
-    //metodo para eliminar empresa
+    //Metodo para eliminar empresa
     public boolean eliminarEmpresa (Integer id){
         empresaRepositorio.deleteById(id);
         if (empresaRepositorio.findById(id).isPresent()){
