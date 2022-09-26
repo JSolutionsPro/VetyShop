@@ -62,7 +62,7 @@ public class EmpresaControlador {
         model.addAttribute("paginas",new int[paginaEmpresas.getTotalPages()]);
         model.addAttribute("paginaActual", NumeroPagina);
         model.addAttribute("mensaje",mensaje);
-        setRedirectTo("/VerUsuarios");
+        setRedirectTo("/VerEmpresas");
     return "verEmpresas";
 
     }
